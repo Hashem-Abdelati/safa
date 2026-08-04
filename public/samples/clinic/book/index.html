@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Book - Aster Clinic</title>
-  <meta name="description" content="A premium private clinic website concept created for the SAFA portfolio.">
+  <title>Book Appointment - Aster Clinic</title>
+  <meta name="description" content="Aster Clinic provides general medicine, preventive checkups, family care, and follow-up visits in Abdoun, Amman.">
   <link rel="preconnect" href="https://images.unsplash.com">
   <link rel="stylesheet" href="/samples/clinic/clinic-v2.css">
   <script defer src="/samples/clinic/clinic-v2.js"></script>
@@ -12,49 +12,59 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="shell">
+    <div class="shell header-grid">
       <a class="brand" href="/samples/clinic/index.html" aria-label="Aster Clinic home">
         <span class="brand-mark">A</span>
-        <span>ASTER<small>PRIVATE CLINIC</small></span>
+        <span>ASTER CLINIC<small>Abdoun, Amman</small></span>
       </a>
       <nav class="desktop-nav" aria-label="Primary navigation">
-        <a class="" href="/samples/clinic/index.html"><span data-en>Home</span><span data-ar>الرئيسية</span></a><a class="" href="/samples/clinic/about/index.html"><span data-en>About</span><span data-ar>عن العيادة</span></a><a class="" href="/samples/clinic/services/index.html"><span data-en>Services</span><span data-ar>الخدمات</span></a><a class="" href="/samples/clinic/doctors/index.html"><span data-en>Doctors</span><span data-ar>الأطباء</span></a><a class="" href="/samples/clinic/patient-info/index.html"><span data-en>Patient Info</span><span data-ar>معلومات المرضى</span></a><a class="" href="/samples/clinic/contact/index.html"><span data-en>Contact</span><span data-ar>اتصل بنا</span></a>
+        <a class="" href="/samples/clinic/index.html">Home</a><a class="" href="/samples/clinic/services/index.html">Services</a><a class="" href="/samples/clinic/doctors/index.html">Doctors</a><a class="" href="/samples/clinic/patient-info/index.html">Patient Info</a><a class="" href="/samples/clinic/contact/index.html">Contact</a>
       </nav>
       <div class="header-actions">
-        <button class="lang-button" type="button" data-language-toggle>العربية</button>
-        <a class="button button-small" href="/samples/clinic/book/index.html"><span data-en>Book</span><span data-ar>احجز</span></a>
+        <a class="phone-link" href="tel:+96265550184">+962 6 555 0184</a>
+        <a class="button button-small" href="/samples/clinic/book/index.html">Book</a>
         <button class="menu-button" type="button" data-menu-toggle aria-label="Open menu"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
       </div>
     </div>
     <nav class="mobile-nav" data-mobile-nav aria-label="Mobile navigation">
-      <a href="/samples/clinic/index.html"><span data-en>Home</span><span data-ar>الرئيسية</span></a><a href="/samples/clinic/about/index.html"><span data-en>About</span><span data-ar>عن العيادة</span></a><a href="/samples/clinic/services/index.html"><span data-en>Services</span><span data-ar>الخدمات</span></a><a href="/samples/clinic/doctors/index.html"><span data-en>Doctors</span><span data-ar>الأطباء</span></a><a href="/samples/clinic/patient-info/index.html"><span data-en>Patient Info</span><span data-ar>معلومات المرضى</span></a><a href="/samples/clinic/contact/index.html"><span data-en>Contact</span><span data-ar>اتصل بنا</span></a>
-      <a href="/samples/clinic/book/index.html"><span data-en>Book appointment</span><span data-ar>احجز موعداً</span></a>
+      <a href="/samples/clinic/index.html">Home</a><a href="/samples/clinic/services/index.html">Services</a><a href="/samples/clinic/doctors/index.html">Doctors</a><a href="/samples/clinic/patient-info/index.html">Patient Info</a><a href="/samples/clinic/contact/index.html">Contact</a>
+      <a href="/samples/clinic/book/index.html">Book appointment</a>
     </nav>
   </header>
-  <main id="main"><section class="compact-intro shell">
-    <p class="eyebrow"><span data-en>Book</span><span data-ar>الحجز</span></p>
-    <div>
-      <h1><span data-en>A booking flow with just enough detail.</span><span data-ar>نموذج حجز بتفاصيل كافية فقط.</span></h1>
-      <p><span data-en>This static demo shows the conversion path a real clinic website would refine and connect to operations.</span><span data-ar>يعرض هذا النموذج الثابت مسار التحويل الذي يمكن ربطه بعمليات العيادة.</span></p>
-    </div>
-  </section>
-  <section class="section shell booking-layout"><form class="booking-form" data-demo-form><div class="form-grid">
-    <label>Full name<input required type="text"></label><label>Phone number<input required type="text"></label><label>Email<input required type="email"></label><label>Preferred date<input required type="date"></label>
-    <label>Service<select required><option value="">Select a service</option><option>General consultations</option><option>Preventive checkups</option><option>Family medicine</option><option>Follow-up care</option></select></label>
-    <label>Preferred doctor<select><option>First available</option><option>Dr. Lina Haddad</option><option>Dr. Omar Khalil</option><option>Dr. Rania Nasser</option></select></label>
-    <label class="full">Message<textarea rows="5" placeholder="Briefly describe what you need. Do not include urgent medical information."></textarea></label>
-  </div><button class="button submit" type="submit"><span data-en>Request appointment</span><span data-ar>اطلب موعداً</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></button><p class="form-status" data-form-status hidden>Request received. The clinic team would call to confirm.</p></form><aside class="booking-aside"><img src="https://images.unsplash.com/photo-1758691462878-6edc3d3da1be?auto=format&fit=crop&w=1800&q=82" alt="Doctor and patient during a calm appointment"><div><h2><span data-en>Clinic details</span><span data-ar>تفاصيل العيادة</span></h2><p>+962 6 555 0184<br>Sunday-Thursday, 8:30 AM-6:00 PM<br>14 Al-Kindi Street, Abdoun</p></div></aside></section></main>
+  <main id="main"><h1 class="sr-only">Book Appointment</h1>
+  <section class="page-shell shell booking-layout">
+    <form class="booking-form" data-demo-form>
+      <div class="section-head compact">
+        <p class="label">Appointment request</p>
+        <p>Send your preferred time. Reception will call to confirm availability.</p>
+      </div>
+      <div class="form-grid">
+        <label>Full name<input required type="text" autocomplete="name"></label>
+        <label>Phone number<input required type="tel" autocomplete="tel"></label>
+        <label>Email<input type="email" autocomplete="email"></label>
+        <label>Preferred date<input required type="date"></label>
+        <label>Service<select required><option value="">Select a service</option><option>General Medicine</option><option>Preventive Checkups</option><option>Family Care</option><option>Follow-up Visits</option></select></label>
+        <label>Doctor<select><option>First available</option><option>Dr. Lina Haddad</option><option>Dr. Omar Khalil</option><option>Dr. Rania Nasser</option></select></label>
+        <label class="full">Message<textarea rows="4" placeholder="Briefly describe the reason for your visit."></textarea></label>
+      </div>
+      <button class="button submit" type="submit"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 10h18"></path></svg>Request appointment</button>
+      <p class="form-status" data-form-status hidden>Request received. Reception would call to confirm the appointment.</p>
+    </form>
+    <aside class="side-panel">
+      <img src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=1400&q=82" alt="Doctor reviewing notes on a tablet">
+      <div><h2>Clinic details</h2><p>Sunday-Thursday, 8:30 AM-6:00 PM<br>14 Al-Kindi Street, Abdoun</p></div>
+    </aside>
+  </section></main>
   <footer class="footer">
     <div class="shell footer-grid">
       <div>
-        <a class="brand brand-light" href="/samples/clinic/index.html"><span class="brand-mark">A</span><span>ASTER<small>PRIVATE CLINIC</small></span></a>
-        <p><span data-en>A calm, modern private clinic concept for appointments, services, doctors, and patient guidance.</span><span data-ar>مفهوم عيادة خاصة حديثة للمواعيد والخدمات والأطباء وإرشاد المرضى.</span></p>
+        <a class="brand brand-light" href="/samples/clinic/index.html"><span class="brand-mark">A</span><span>ASTER CLINIC<small>Abdoun, Amman</small></span></a>
       </div>
-      <div><h3><span data-en>Visit</span><span data-ar>زيارة</span></h3><p><span data-en>14 Al-Kindi Street<br>Abdoun, Amman</span><span data-ar>شارع الكندي 14<br>عبدون، عمّان</span></p></div>
-      <div><h3><span data-en>Contact</span><span data-ar>تواصل</span></h3><a href="tel:+96265550184">+962 6 555 0184</a><a href="mailto:hello@asterclinic.jo">hello@asterclinic.jo</a></div>
-      <div><h3><span data-en>SAFA</span><span data-ar>صفاء</span></h3><a href="/samples/clinic/case-study/index.html"><span data-en>View case study</span><span data-ar>شاهد دراسة الحالة</span></a></div>
+      <div><h2>Hours</h2><p>Sunday-Thursday<br>8:30 AM-6:00 PM</p></div>
+      <div><h2>Contact</h2><a href="tel:+96265550184">+962 6 555 0184</a><a href="mailto:hello@asterclinic.jo">hello@asterclinic.jo</a></div>
+      <div><h2>Visit</h2><p>14 Al-Kindi Street<br>Abdoun, Amman</p></div>
     </div>
   </footer>
-  <div class="mobile-cta"><a class="button button-secondary" href="tel:+96265550184"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92z"></path></svg><span data-en>Call</span><span data-ar>اتصال</span></a><a class="button" href="/samples/clinic/book/index.html"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 10h18"></path></svg><span data-en>Book</span><span data-ar>حجز</span></a></div>
+  <div class="mobile-cta"><a class="button button-secondary" href="tel:+96265550184"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92z"></path></svg>Call</a><a class="button" href="/samples/clinic/book/index.html"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 10h18"></path></svg>Book</a></div>
 </body>
 </html>
