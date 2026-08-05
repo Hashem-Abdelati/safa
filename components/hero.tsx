@@ -4,8 +4,8 @@ import { HeroField } from "@/components/hero-field";
 import { localePath, type Locale } from "@/lib/i18n";
 
 const industries = {
-  en: ["Restaurants", "Clinics", "Boutiques", "Real Estate", "Cafés", "Startups", "Personal Brands", "Luxury Services"],
-  ar: ["المطاعم", "العيادات", "المتاجر", "العلامات العقارية", "المقاهي", "الشركات الناشئة", "العلامات الشخصية", "الخدمات الراقية"],
+  en: ["Businesses", "Clinics", "Boutiques", "Restaurants", "Cafés", "Startups", "Brands", "Studios"],
+  ar: ["الأعمال", "العيادات", "المتاجر", "المطاعم", "المقاهي", "الشركات", "العلامات", "الاستوديوهات"],
 };
 
 export function Hero({ locale }: { locale: Locale }) {

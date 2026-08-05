@@ -26,8 +26,7 @@ export function GooeyText({
     if (texts.length < 2) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const compactViewport = window.matchMedia("(max-width: 767px)").matches;
-    if (reducedMotion || compactViewport) {
+    if (reducedMotion) {
       if (text1Ref.current) {
         text1Ref.current.textContent = texts[0];
         text1Ref.current.style.opacity = "100%";
