@@ -31,12 +31,13 @@ const arabicSerif = Noto_Naskh_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "SAFA صَفاء — Websites with clarity and taste",
-    template: "%s — SAFA صَفاء",
+  title: "Safa صَفاء",
+  description: "Safa صَفاء",
+  icons: {
+    icon: [{ url: "/favicon.png", type: "image/png", sizes: "512x512" }],
+    shortcut: [{ url: "/favicon.png", type: "image/png" }],
+    apple: [{ url: "/favicon.png", type: "image/png" }],
   },
-  description:
-    "A bilingual boutique web design studio creating refined, credible websites for thoughtful businesses.",
 };
 
 export default function RootLayout({
