@@ -9,7 +9,7 @@ const copy = {
   en: {
     fields: ["Name", "Business name", "Email", "Type of website", "Budget range", "Tell us about the project"],
     types: ["Select one", "Brand website", "E-commerce", "Landing page", "Booking / service website", "Website redesign", "Not sure yet"],
-    budgets: ["Select a range", "$2,500–$5,000", "$5,000–$10,000", "$10,000+", "Let’s discuss"],
+    budgets: ["Select a range", "$300–$700", "$700–$1,500", "$1,500+", "Let’s discuss"],
     button: "Send Inquiry",
     sending: "Sending...",
     note: "Sends directly to our inbox.",
@@ -19,7 +19,7 @@ const copy = {
   ar: {
     fields: ["الاسم", "اسم العمل", "البريد الإلكتروني", "نوع الموقع", "نطاق الميزانية", "حدّثنا عن المشروع"],
     types: ["اختر النوع", "موقع علامة", "متجر إلكتروني", "صفحة هبوط", "موقع حجز / خدمات", "إعادة تصميم", "لست متأكدًا بعد"],
-    budgets: ["اختر النطاق", "٢٬٥٠٠–٥٬٠٠٠ دولار", "٥٬٠٠٠–١٠٬٠٠٠ دولار", "أكثر من ١٠٬٠٠٠ دولار", "لنناقش التفاصيل"],
+    budgets: ["اختر النطاق", "٣٠٠–٧٠٠ دولار", "٧٠٠–١٬٥٠٠ دولار", "أكثر من ١٬٥٠٠ دولار", "لنناقش التفاصيل"],
     button: "إرسال تفاصيل المشروع",
     sending: "جارٍ الإرسال...",
     note: "يرسل التفاصيل مباشرة إلى بريدنا.",
@@ -101,15 +101,15 @@ export function ProjectForm({ locale }: { locale: Locale }) {
         <span className="eyebrow text-ink/45">{c.fields[5]}</span>
         <textarea className="field min-h-28 resize-y" name="message" required />
       </label>
-      <div className="flex flex-col items-start gap-4 md:col-span-2 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col items-stretch gap-4 md:col-span-2 md:flex-row md:items-center md:justify-between">
         <Button
           type="submit"
           disabled={status === "submitting"}
-          className="h-12 rounded-none px-6 text-xs uppercase tracking-[0.12em]"
+          className="h-[3.25rem] w-full rounded-none px-6 text-xs uppercase tracking-[0.12em] md:h-12 md:w-auto"
         >
           {status === "submitting" ? c.sending : c.button}<Mail aria-hidden="true" />
         </Button>
-        <p className="text-xs text-ink/45" aria-live="polite">{statusMessage}</p>
+        <p className="text-xs leading-6 text-ink/45 md:text-end" aria-live="polite">{statusMessage}</p>
       </div>
     </form>
   );

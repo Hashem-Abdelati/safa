@@ -35,7 +35,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             <p className="mt-5 font-mono text-[10px] text-ink/35">01 / 03</p>
           </div>
           <div>
-            <h2 className="max-w-5xl font-heading text-[clamp(2.8rem,5.5vw,5.8rem)] font-medium leading-[0.98] tracking-[-0.035em]">
+            <h2 className="max-w-[12ch] break-words font-heading text-[clamp(2.35rem,10vw,3.65rem)] font-medium leading-[1.02] tracking-[-0.02em] md:max-w-5xl md:text-[clamp(3.4rem,5.5vw,5.8rem)] md:leading-[0.98] md:tracking-[-0.035em]">
               {ar ? "موقعك ليس مجرد واجهة. إنه أول دليل على جودة عملك." : "Your website is not decoration. It is the first proof of your business."}
             </h2>
             <div className="mt-10 grid gap-8 border-t border-ink/15 pt-7 md:grid-cols-2">
@@ -73,7 +73,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
               <span className="size-1.5 animate-pulse rounded-full bg-gold" />
               <p className="eyebrow text-paper/45">{ar ? "مختبر صَفاء / أداة مباشرة" : "SAFA studio lab / Live tool"}</p>
             </div>
-            <h2 className="mt-7 max-w-3xl font-heading text-[clamp(3rem,5.5vw,6rem)] leading-[0.94]">
+            <h2 className="mt-7 max-w-[12ch] break-words font-heading text-[clamp(2.45rem,11vw,3.7rem)] leading-[1] md:max-w-3xl md:text-[clamp(3.5rem,5.5vw,6rem)] md:leading-[0.94]">
               {ar ? "الجمال مهم. لكن هل يعمل موقعك فعلًا؟" : "Looking good matters. Working well matters more."}
             </h2>
             <p className="mt-7 max-w-xl text-sm leading-7 text-paper/55 md:text-base">
@@ -126,7 +126,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
           <div className="mb-10 grid gap-5 md:grid-cols-[1fr_0.7fr] md:items-end">
             <div className="max-w-3xl">
               <p className="eyebrow text-ink/45">{ar ? "نماذج المواقع" : "Website samples"}</p>
-              <h2 className="mt-4 font-heading text-4xl md:text-6xl">{ar ? "نماذج حقيقية لثلاثة أنواع من المواقع." : "Three real sample websites."}</h2>
+              <h2 className="mt-4 font-heading text-[clamp(2.4rem,11vw,3.6rem)] leading-none md:text-6xl">{ar ? "نماذج حقيقية لثلاثة أنواع من المواقع." : "Three real sample websites."}</h2>
             </div>
             <div className="md:text-end">
               <span className="font-mono text-[10px] text-ink/35">03 / 03</span>
@@ -153,7 +153,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
                       <span>{sample.category}</span>
                       <span className="text-end">{sample.focus}</span>
                     </div>
-                    <h3 className="mt-5 font-heading text-4xl leading-none">{sample.name}</h3>
+                    <h3 className="mt-5 font-heading text-[clamp(2.25rem,10vw,2.8rem)] leading-none md:text-4xl">{sample.name}</h3>
                     <p className="mt-4 text-sm leading-6 text-ink/62">{sample.description}</p>
                     <p className="mt-4 border-s border-gold ps-4 text-sm leading-6 text-ink/62">{sample.outcome}</p>
                     <span className="mt-auto inline-flex w-fit items-center gap-2 pt-6 font-mono text-[10px] uppercase text-ink transition-colors duration-200 group-hover:text-gold">
@@ -174,7 +174,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <section className="border-t border-ink/15 bg-sand">
         <div className="site-container flex min-h-[52vh] flex-col items-center justify-center py-20 text-center">
           <p className="eyebrow text-ink/50">{ar ? "مشروعك يبدأ من هنا" : "Your project starts here"}</p>
-          <h2 className="mt-7 max-w-5xl font-heading text-[clamp(3.4rem,7vw,7rem)] leading-[0.92] tracking-[-0.035em]">
+          <h2 className="mt-7 max-w-[12ch] break-words font-heading text-[clamp(2.55rem,12vw,4rem)] leading-[0.98] tracking-[-0.02em] md:max-w-5xl md:text-[clamp(3.4rem,7vw,7rem)] md:leading-[0.92] md:tracking-[-0.035em]">
             {ar ? "ليبدو عملك واضحًا، موثوقًا، وجاهزًا." : "Make your business feel clear, trusted, and ready."}
           </h2>
           <EditorialLink href={localePath(locale, "/contact")} isArabic={ar} className="mt-9">{ar ? "ابدأ مشروعك" : "Start a project"}</EditorialLink>

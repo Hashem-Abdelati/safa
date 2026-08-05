@@ -26,10 +26,16 @@ export function GooeyText({
     if (texts.length < 2) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion) {
+    const compactViewport = window.matchMedia("(max-width: 767px)").matches;
+    if (reducedMotion || compactViewport) {
       if (text1Ref.current) {
         text1Ref.current.textContent = texts[0];
         text1Ref.current.style.opacity = "100%";
+        text1Ref.current.style.filter = "";
+      }
+      if (text2Ref.current) {
+        text2Ref.current.style.opacity = "0%";
+        text2Ref.current.style.filter = "";
       }
       return;
     }
@@ -96,7 +102,7 @@ export function GooeyText({
   }, [texts, morphTime, cooldownTime]);
 
   return (
-    <span className={cn("relative inline-grid min-h-[1.12em] min-w-[11ch] align-bottom", className)} aria-live="polite">
+    <span className={cn("relative inline-grid min-h-[1.12em] max-w-full min-w-[min(11ch,100%)] align-bottom", className)} aria-live="polite">
       <svg className="absolute h-0 w-0" aria-hidden="true" focusable="false">
         <defs>
           <filter id={filterId}>
@@ -118,6 +124,7 @@ export function GooeyText({
         <span
           ref={text2Ref}
           className={cn("col-start-1 row-start-1 inline-block whitespace-nowrap", textClassName)}
+          style={{ opacity: 0 }}
           aria-hidden="true"
         >
           {texts[1]}

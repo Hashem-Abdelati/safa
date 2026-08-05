@@ -17,12 +17,12 @@ export function WebsitePreview({
   imageClassName?: string;
 }) {
   return (
-    <div className={cn("overflow-hidden rounded-[6px] border border-ink/15 bg-paper shadow-[0_24px_70px_rgba(28,25,23,0.1)]", className)}>
-      <div className="flex h-9 items-center gap-2 border-b border-ink/12 bg-paper-deep/70 px-3">
+    <div className={cn("overflow-hidden rounded-[6px] border border-ink/15 bg-paper shadow-[0_18px_50px_rgba(28,25,23,0.09)] md:shadow-[0_24px_70px_rgba(28,25,23,0.1)]", className)}>
+      <div className="flex h-8 items-center gap-1.5 border-b border-ink/12 bg-paper-deep/70 px-2.5 md:h-9 md:gap-2 md:px-3">
         <span className="size-2 rounded-full bg-ink/22" />
         <span className="size-2 rounded-full bg-gold/70" />
         <span className="size-2 rounded-full bg-olive/55" />
-        <span className="ms-2 min-w-0 flex-1 truncate rounded-[4px] border border-ink/10 bg-paper px-3 py-1 font-mono text-[10px] text-ink/45">
+        <span className="ms-1.5 min-w-0 flex-1 truncate rounded-[4px] border border-ink/10 bg-paper px-2 py-1 font-mono text-[9px] text-ink/45 md:ms-2 md:px-3 md:text-[10px]">
           {urlLabel}
         </span>
       </div>

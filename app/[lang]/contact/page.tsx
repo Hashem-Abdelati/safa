@@ -25,7 +25,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
             <p className="mt-5 font-mono text-[10px] text-ink/35">06 / 06</p>
           </div>
           <div>
-            <h1 className="max-w-3xl font-heading text-[clamp(2.8rem,5vw,4.9rem)] leading-[0.98]">
+            <h1 className="max-w-[11ch] break-words font-heading text-[clamp(2.25rem,10vw,3.4rem)] leading-[1.02] md:max-w-3xl md:text-[clamp(3.2rem,5vw,4.9rem)] md:leading-[0.98]">
               {ar ? "أخبرنا عن الموقع الذي تحتاجه." : "Tell us about the website you need."}
             </h1>
             <p className="mt-5 max-w-xl text-sm leading-7 text-ink/58">
@@ -35,8 +35,8 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
         </div>
       </header>
       <section className="page-pad">
-        <div className="site-container grid gap-16 lg:grid-cols-[0.55fr_1.45fr]">
-          <aside>
+        <div className="site-container grid gap-10 lg:grid-cols-[0.55fr_1.45fr] lg:gap-16">
+          <aside className="min-w-0">
             <p className="eyebrow text-gold">{ar ? "تواصل مباشر" : "Direct contact"}</p>
             <div className="mt-6 space-y-4 text-sm leading-7 text-ink/65">
               <a className="transition-colors hover:text-gold" href={`mailto:${contactEmail}`}>
@@ -47,11 +47,11 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
               </a>
               <p>Amman · Worldwide</p>
             </div>
-            <div className="mt-10 grid gap-px bg-ink/15">
+            <div className="mt-10 grid min-w-0 gap-px bg-ink/15">
               {contactNotes.map(([title, text]) => (
-                <div key={title} className="bg-paper p-5">
+                <div key={title} className="min-w-0 bg-paper p-5">
                   <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-ink">{title}</h2>
-                  <p className="mt-3 text-sm leading-6 text-ink/58">{text}</p>
+                  <p className="mt-3 max-w-full text-sm leading-6 text-ink/58">{text}</p>
                 </div>
               ))}
             </div>

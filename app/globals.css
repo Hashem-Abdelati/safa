@@ -74,6 +74,7 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
@@ -101,7 +102,8 @@
 
 @layer components {
   .site-container {
-    width: min(100% - 2rem, 88rem);
+    width: calc(100% - 2rem);
+    max-width: 88rem;
     margin-inline: auto;
   }
 
@@ -128,7 +130,7 @@
     font-size: clamp(3.6rem, 8.2vw, 8.4rem);
     font-weight: 500;
     line-height: 0.86;
-    letter-spacing: -0.045em;
+    letter-spacing: 0;
   }
 
   [dir="rtl"] .display-title,
@@ -207,7 +209,7 @@
     font-size: clamp(3rem, 6vw, 6rem);
     font-weight: 500;
     line-height: 0.95;
-    letter-spacing: -0.035em;
+    letter-spacing: 0;
   }
 
   .section-lede {
@@ -1077,6 +1079,88 @@ html.intro-active body {
 @keyframes page-in {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 767px) {
+  .site-container {
+    width: calc(100% - 1.5rem);
+    max-width: 88rem;
+  }
+  p,
+  li {
+    overflow-wrap: break-word;
+  }
+  .page-pad { padding-block: clamp(3.5rem, 14vw, 5.25rem); }
+  .display-title { font-size: clamp(3rem, 16vw, 4.7rem); line-height: 0.94; }
+  .section-heading { font-size: clamp(2.55rem, 14vw, 4.4rem); line-height: 1; }
+  .section-header { padding-block: 3.25rem; }
+  .safa-button {
+    width: 100%;
+    min-height: 3.25rem;
+    padding-inline: 1rem;
+    text-align: center;
+  }
+  .rule-link::after,
+  .nav-link::after { display: none; }
+  .field {
+    min-height: 3.35rem;
+    font-size: 1rem;
+  }
+  .select-field {
+    min-height: 3.45rem;
+    font-size: 1rem;
+  }
+  .service-card {
+    min-height: auto;
+    padding: 1.25rem;
+  }
+  .service-card__meta,
+  .service-card__footer {
+    gap: 1rem;
+  }
+  .service-card__fit {
+    max-width: 11rem;
+    font-size: 0.74rem;
+  }
+  .service-card__body {
+    margin-top: 2.5rem;
+  }
+  .service-card__title {
+    max-width: 12ch;
+    font-size: clamp(2.35rem, 12vw, 3.25rem);
+    line-height: 1;
+  }
+  .service-card__scope {
+    margin-top: 2rem;
+  }
+  .quiet-band__inner {
+    padding-block: 3.5rem;
+  }
+  .quiet-band__title {
+    font-size: clamp(2.6rem, 14vw, 4.35rem);
+    line-height: 1;
+  }
+  .audit-panel {
+    padding: 1.15rem;
+  }
+  .audit-score-grid {
+    grid-template-columns: 1fr;
+  }
+  .audit-orbit {
+    width: min(100%, 310px);
+  }
+  .site-intro__latin {
+    font-size: clamp(3rem, 18vw, 4.8rem);
+  }
+  .site-intro__meaning,
+  .site-intro__coordinates,
+  .site-intro__edition {
+    display: none;
+  }
+  .site-intro__skip {
+    inset-inline: 1.25rem;
+    text-align: center;
+  }
 }
 
 @media (min-width: 768px) {

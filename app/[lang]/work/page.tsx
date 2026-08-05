@@ -25,7 +25,7 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
         <div className="grid gap-8 border-b border-ink/15 pb-12 md:grid-cols-[0.8fr_1.2fr] md:items-end md:pb-16">
           <div>
             <p className="eyebrow text-gold">{ar ? "الأعمال" : "Work"}</p>
-            <h1 className="mt-4 font-heading text-[clamp(3rem,7vw,5.75rem)] leading-none">
+            <h1 className="mt-4 font-heading text-[clamp(2.8rem,15vw,4.6rem)] leading-none md:text-[clamp(3.5rem,7vw,5.75rem)]">
               {ar ? "نماذجنا" : "Our samples"}
             </h1>
           </div>
@@ -39,7 +39,7 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
         <div className="mt-8 grid gap-px bg-ink/15 md:grid-cols-3">
           {proofStats.map(([value, label, text]) => (
             <div key={label} className="bg-paper-deep p-6">
-              <p className="font-heading text-5xl leading-none text-ink">{value}</p>
+              <p className="font-heading text-4xl leading-none text-ink md:text-5xl">{value}</p>
               <h2 className="mt-4 text-sm font-semibold uppercase tracking-[0.12em] text-ink">{label}</h2>
               <p className="mt-3 text-sm leading-6 text-ink/58">{text}</p>
             </div>
@@ -71,7 +71,7 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
                     <span>{project.focus}</span>
                   </div>
                   <p className="eyebrow mt-7 text-gold">{project.direction}</p>
-                  <h2 className="mt-4 font-heading text-[clamp(3rem,6vw,5.75rem)] leading-none">{project.name}</h2>
+                  <h2 className="mt-4 font-heading text-[clamp(2.7rem,13vw,4.4rem)] leading-none md:text-[clamp(3.4rem,6vw,5.75rem)]">{project.name}</h2>
                   <p className="mt-6 max-w-xl text-sm leading-7 text-ink/68 md:text-base md:leading-8">{project.description}</p>
                   <div className="mt-7 border-t border-ink/15 pt-5 text-sm leading-7 text-ink/70">
                     {project.goal}

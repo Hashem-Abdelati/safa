@@ -6,7 +6,7 @@ import type { Locale } from "@/lib/i18n";
 type IntroPhase = "visible" | "exiting" | "hidden";
 
 export function SiteIntro({ locale }: { locale: Locale }) {
-  const [phase, setPhase] = React.useState<IntroPhase>("visible");
+  const [phase, setPhase] = React.useState<IntroPhase>("hidden");
   const timersRef = React.useRef<number[]>([]);
 
   const releasePage = React.useCallback(() => {
@@ -18,7 +18,7 @@ export function SiteIntro({ locale }: { locale: Locale }) {
     const hideTimer = window.setTimeout(() => {
       setPhase("hidden");
       releasePage();
-    }, quick ? 480 : 760);
+    }, quick ? 320 : 520);
     timersRef.current.push(hideTimer);
   }, [releasePage]);
 
@@ -26,21 +26,20 @@ export function SiteIntro({ locale }: { locale: Locale }) {
     const timers = timersRef.current;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reducedMotion) {
-      const skipTimer = window.setTimeout(() => {
-        setPhase("hidden");
-        releasePage();
-      }, 0);
-      timers.push(skipTimer);
+      releasePage();
       return () => timers.forEach(window.clearTimeout);
     }
 
     document.documentElement.classList.add("intro-active");
-    const exitTimer = window.setTimeout(() => setPhase("exiting"), 1700);
+    const showTimer = window.setTimeout(() => setPhase("visible"), 0);
+    const exitTimer = window.setTimeout(() => {
+      setPhase("exiting");
+    }, 1150);
     const hideTimer = window.setTimeout(() => {
       setPhase("hidden");
       releasePage();
-    }, 2480);
-    timers.push(exitTimer, hideTimer);
+    }, 1700);
+    timers.push(showTimer, exitTimer, hideTimer);
 
     return () => {
       timers.forEach(window.clearTimeout);
