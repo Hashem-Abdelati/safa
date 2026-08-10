@@ -261,4 +261,33 @@ body,
   .safa-mobile-performance {
     padding: 44px 0;
   }
+
+  html[dir="rtl"] .hero__content {
+    margin-inline: auto;
+    text-align: right;
+    width: min(100% - 34px, 1240px);
+  }
+
+  html[dir="rtl"] .hero h1 {
+    max-width: 340px;
+    margin-inline-start: auto;
+    font-family: "IBM Plex Sans Arabic", "Noto Sans Arabic", Manrope, sans-serif;
+    font-size: clamp(2.6rem, 12.4vw, 3.18rem);
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  html[dir="rtl"] .hero__content > p:not(.kicker) {
+    max-width: 320px;
+    margin-inline-start: auto;
+  }
+
+  html[dir="rtl"] .hero .button-row {
+    justify-content: flex-end;
+  }
+
+  html[dir="rtl"] .hero .button {
+    gap: 16px;
+    min-width: 0;
+  }
 }
