@@ -67,4 +67,32 @@
   window.addEventListener("error", function (event) {
     if (event.target && event.target.tagName === "IMG") repairImage(event.target);
   }, true);
+
+  function recoverOnce(reason) {
+    var key = "safa-atelier-recovered:" + window.location.pathname + window.location.search;
+    try {
+      if (window.sessionStorage.getItem(key)) return;
+      window.sessionStorage.setItem(key, reason || "runtime");
+    } catch (error) {
+      if (window.__safaAtelierRecovered) return;
+      window.__safaAtelierRecovered = true;
+    }
+    window.location.reload();
+  }
+
+  function shouldRecover(message) {
+    return /ChunkLoadError|Loading chunk|missing.*chunk|Minified React error|hydration|client-side exception/i.test(message || "");
+  }
+
+  window.addEventListener("error", function (event) {
+    if (event.target && event.target.tagName) return;
+    var message = event.message || (event.error && event.error.message) || "";
+    if (shouldRecover(message)) recoverOnce(message);
+  });
+
+  window.addEventListener("unhandledrejection", function (event) {
+    var reason = event.reason || {};
+    var message = reason.message || String(reason);
+    if (shouldRecover(message)) recoverOnce(message);
+  });
 })();
