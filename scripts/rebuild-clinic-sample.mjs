@@ -1,472 +1,410 @@
-import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
-const root = process.cwd();
-const target = path.join(root, "public", "samples", "clinic");
-const base = "/samples/clinic";
-
-const images = {
-  hero: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1800&q=84",
-  room: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1600&q=84",
-  consult: "https://images.unsplash.com/photo-1713085085470-fba013d67e65?auto=format&fit=crop&w=1500&q=84",
-  doctorA: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1200&q=84",
-  doctorB: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=1200&q=84",
-  doctorC: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=1200&q=84",
-  skinA: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=84",
-  skinB: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=84",
-  profileA: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=900&q=84",
-  profileB: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=84",
-  treatment: "https://images.unsplash.com/photo-1580281657527-47f249e8f4df?auto=format&fit=crop&w=1500&q=84",
-};
+const workspace = "/Users/hashemabdelati/Desktop/safa-website";
+const target = path.join(workspace, "public", "samples", "clinic");
+const assetSource = path.join(workspace, "public", "sample-assets", "clinic");
 
 const routes = [
-  ["home", "", "Home"],
-  ["services", "services", "Treatments"],
-  ["portfolio", "portfolio", "Results"],
-  ["doctors", "doctors", "Doctors"],
-  ["patient-info", "patient-info", "Patient Info"],
-  ["contact", "contact", "Contact"],
+  ["index", "Home"],
+  ["services", "Treatments"],
+  ["portfolio", "Results"],
+  ["doctors", "Doctors"],
+  ["patient-info", "Patient Info"],
+  ["contact", "Contact"],
 ];
 
-const pages = {
-  index: {
-    id: "home",
-    title: "Aster Clinic",
-    description: "Private aesthetic surgery and skin clinic.",
-    body: homePage(),
+const treatments = [
+  {
+    title: "Facial surgery",
+    text: "Consultation-led planning for rhinoplasty, eyelid surgery, neck refinement, and facial balance.",
   },
-  services: {
-    id: "services",
-    title: "Treatments - Aster Clinic",
-    description: "Consultation-led surgical, injectable, laser, and skin treatments.",
-    body: servicesPage(),
+  {
+    title: "Skin health",
+    text: "Laser, pigmentation, texture, acne scarring, and medical-grade maintenance programs.",
   },
-  portfolio: {
-    id: "portfolio",
-    title: "Results - Aster Clinic",
-    description: "A polished consent-based results gallery for an aesthetic clinic.",
-    body: resultsPage(),
+  {
+    title: "Injectables",
+    text: "Subtle toxin and filler treatment planned around proportion, movement, and long-term restraint.",
   },
-  doctors: {
-    id: "doctors",
-    title: "Doctors - Aster Clinic",
-    description: "Meet the medical team at Aster Clinic.",
-    body: doctorsPage(),
+  {
+    title: "Recovery care",
+    text: "Follow-up appointments, scar care, swelling review, and skin support after treatment.",
   },
-  "patient-info": {
-    id: "patient-info",
-    title: "Patient Information - Aster Clinic",
-    description: "Clear patient information, preparation, and safety guidance.",
-    body: patientInfoPage(),
-  },
-  contact: {
-    id: "contact",
-    title: "Contact - Aster Clinic",
-    description: "Contact and location details for Aster Clinic.",
-    body: contactPage(),
-  },
-  book: {
-    id: "book",
-    title: "Book Consultation - Aster Clinic",
-    description: "Book a private consultation with Aster Clinic.",
-    body: bookPage(),
-  },
-  about: {
-    id: "about",
-    title: "About - Aster Clinic",
-    description: "About Aster Clinic and its clinical approach.",
-    body: aboutPage(),
-  },
-  "case-study": {
-    id: "case-study",
-    title: "Clinical Standards - Aster Clinic",
-    description: "Clinical standards, consent, photography, and patient care.",
-    body: standardsPage(),
-  },
-};
+];
 
-function href(route) {
-  return route ? `${base}/${route}/index.html` : `${base}/index.html`;
+const doctors = [
+  ["Dr. Leila Haddad", "Consultant aesthetic surgeon", "Facial surgery, revision consultation, recovery planning"],
+  ["Dr. Omar Nasser", "Dermatologist", "Laser, pigmentation, acne scarring, medical skin health"],
+  ["Rania Saleh", "Nurse practitioner", "Injectables support, preparation, post-treatment care"],
+];
+
+function ensureDir(dir) {
+  mkdirSync(dir, { recursive: true });
 }
 
-function arrow() {
-  return '<span aria-hidden="true">-&gt;</span>';
+function routeHref(route) {
+  return route === "index" ? "/samples/clinic/index.html" : `/samples/clinic/${route}/index.html`;
 }
 
-function shell(page) {
-  const nav = routes
-    .map(([id, route, label]) => `<a class="${page.id === id ? "active" : ""}" href="${href(route)}">${label}</a>`)
+function nav(active) {
+  return routes
+    .map(([route, label]) => `<a${route === active ? ' class="active"' : ""} href="${routeHref(route)}">${label}</a>`)
     .join("");
+}
 
-  return `<!DOCTYPE html>
+function page({ route, title, description, body, lead = true }) {
+  const routeDir = route === "index" ? target : path.join(target, route);
+  ensureDir(routeDir);
+  const leadMarkup = lead
+    ? `<section class="page-lead">
+        <p class="kicker">Aster Clinic</p>
+        <h1>${title}</h1>
+        <p>${description}</p>
+      </section>`
+    : "";
+
+  writeFileSync(
+    path.join(routeDir, "index.html"),
+    `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${page.title}</title>
-  <meta name="description" content="${page.description}">
+  <title>${title === "Aster Clinic" ? "Aster Clinic" : `${title} - Aster Clinic`}</title>
+  <meta name="description" content="${description}">
   <link rel="icon" href="/favicon.png" sizes="512x512" type="image/png">
-  <link rel="stylesheet" href="${base}/aster.css">
-  <script defer src="${base}/aster.js"></script>
+  <link rel="stylesheet" href="/samples/clinic/aster.css">
+  <script defer src="/samples/clinic/aster.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <a class="brand" href="${href("")}" aria-label="Aster Clinic home">
-      <span class="brand-mark">A</span>
-      <span><strong>Aster</strong><small>Private aesthetic clinic</small></span>
+    <a class="brand" href="/samples/clinic/index.html" aria-label="Aster Clinic home">
+      <span>Aster</span>
+      <small>Private aesthetic clinic</small>
     </a>
-    <nav class="desktop-nav" aria-label="Primary navigation">${nav}</nav>
+    <nav class="desktop-nav" aria-label="Primary navigation">${nav(route)}</nav>
     <div class="header-actions">
-      <a class="button button-small" href="${href("book")}">Book</a>
+      <a class="book-link" href="/samples/clinic/book/index.html">Book</a>
       <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
     </div>
   </header>
   <nav class="mobile-nav" aria-label="Mobile navigation">
-    ${nav}
-    <a class="button" href="${href("book")}">Book consultation</a>
+    ${nav(route)}
+    <a class="button" href="/samples/clinic/book/index.html">Book consultation</a>
   </nav>
-  <main id="main">${page.body}</main>
+  <main id="main">
+    ${leadMarkup}
+    ${body}
+  </main>
   ${footer()}
   <div class="mobile-cta">
-    <a class="button button-soft" href="tel:+96265550184">Call</a>
-    <a class="button" href="${href("book")}">Book</a>
+    <a class="button ghost" href="tel:+962798509111">Call</a>
+    <a class="button" href="/samples/clinic/book/index.html">Book</a>
   </div>
 </body>
-</html>
-`;
+</html>`,
+  );
 }
 
 function footer() {
   return `<footer class="footer">
-    <div class="footer-inner">
-      <div>
-        <a class="brand footer-brand" href="${href("")}"><span class="brand-mark">A</span><span><strong>Aster</strong><small>Private aesthetic clinic</small></span></a>
-        <p>Consultation-led aesthetic surgery, skin health, and follow-up care in Abdoun.</p>
-      </div>
-      <div><h2>Visit</h2><p>Abdoun, Amman<br>Sun-Thu, 9 AM-6 PM</p></div>
-      <div><h2>Contact</h2><a href="tel:+96265550184">+962 6 555 0184</a><a href="mailto:hello@asterclinic.jo">hello@asterclinic.jo</a></div>
-      <div><h2>Patients</h2><a href="${href("patient-info")}">Preparation</a><a href="${href("case-study")}">Clinical standards</a></div>
+    <div>
+      <a class="brand footer-brand" href="/samples/clinic/index.html">
+        <span>Aster</span>
+        <small>Private aesthetic clinic</small>
+      </a>
+      <p>Quiet, doctor-led aesthetic care with clear information, consistent follow-up, and responsible result presentation.</p>
+    </div>
+    <nav aria-label="Footer navigation">
+      <a href="/samples/clinic/services/index.html">Treatments</a>
+      <a href="/samples/clinic/portfolio/index.html">Results</a>
+      <a href="/samples/clinic/doctors/index.html">Doctors</a>
+      <a href="/samples/clinic/contact/index.html">Contact</a>
+    </nav>
+    <div>
+      <span>Abdoun, Amman</span>
+      <span>Sun - Thu, 9:00 - 18:00</span>
+      <span>+962 79 850 9111</span>
     </div>
   </footer>`;
 }
 
-function sectionIntro(kicker, title, text) {
-  return `<section class="page-lead">
-    <p class="eyebrow">${kicker}</p>
-    <div>
-      <h1>${title}</h1>
-      <p>${text}</p>
-    </div>
-  </section>`;
-}
+const treatmentCards = treatments
+  .map(
+    (item) => `<article class="quiet-card">
+      <h3>${item.title}</h3>
+      <p>${item.text}</p>
+      <a href="/samples/clinic/book/index.html">Discuss treatment</a>
+    </article>`,
+  )
+  .join("");
 
-function cta() {
-  return `<section class="consult-strip">
-    <div>
-      <p class="eyebrow">Private consultation</p>
-      <h2>Understand the options before choosing a treatment.</h2>
-    </div>
-    <a class="button button-light" href="${href("book")}">Book consultation ${arrow()}</a>
-  </section>`;
-}
+const doctorCards = doctors
+  .map(
+    ([name, role, focus]) => `<article class="quiet-card doctor-item">
+      <h3>${name}</h3>
+      <p>${role}</p>
+      <span>${focus}</span>
+    </article>`,
+  )
+  .join("");
 
-function treatmentCards(limit = 4) {
-  const treatments = [
-    ["Facial surgery", "Rhinoplasty, eyelid surgery, facelift planning, and revision consultations with measured outcomes.", "Consultation, planning, surgery, review"],
-    ["Injectables", "Natural-looking toxin and filler treatments led by facial assessment, proportion, and patient goals.", "Assessment, treatment, follow-up"],
-    ["Skin health", "Laser resurfacing, pigmentation care, acne scarring, and medical-grade maintenance plans.", "Diagnosis, protocol, review"],
-    ["Post-surgery care", "Scar management, swelling review, skin recovery, and long-term treatment planning.", "Recovery, monitoring, refinement"],
-  ].slice(0, limit);
-
-  return treatments
-    .map(
-      ([title, text, meta], index) => `<article class="treatment-card">
-        <span>${String(index + 1).padStart(2, "0")}</span>
-        <h3>${title}</h3>
-        <p>${text}</p>
-        <small>${meta}</small>
-        <a href="${href("book")}">Discuss treatment ${arrow()}</a>
-      </article>`,
-    )
-    .join("");
-}
-
-function resultCards() {
-  const cases = [
-    ["Profile balance", "Surgical planning", images.profileA, images.profileB],
-    ["Skin texture", "Laser and recovery care", images.skinA, images.skinB],
-    ["Facial refinement", "Treatment planning", images.skinB, images.profileB],
-  ];
-
-  return cases
-    .map(
-      ([title, type, before, after]) => `<article class="result-card">
-        <div class="compare">
-          <figure><img src="${before}" alt="${title} before clinical photography"><figcaption>Before</figcaption></figure>
-          <figure><img src="${after}" alt="${title} after clinical photography"><figcaption>After</figcaption></figure>
+function home() {
+  page({
+    route: "index",
+    title: "Aster Clinic",
+    description: "Doctor-led aesthetic care in a calm private clinic.",
+    lead: false,
+    body: `<section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">Private aesthetic clinic - Amman</p>
+        <h1>Calm, considered aesthetic care.</h1>
+        <p>Aster Clinic brings consultation, skin health, facial aesthetics, and follow-up care into one quiet clinical setting.</p>
+        <div class="button-row">
+          <a class="button" href="/samples/clinic/book/index.html">Book consultation</a>
+          <a class="button ghost" href="/samples/clinic/portfolio/index.html">View results</a>
         </div>
-        <div class="result-copy">
-          <p class="eyebrow">${type}</p>
-          <h3>${title}</h3>
-          <p>Consent-based result presentation with consistent lighting, angles, timing, and plain-language notes.</p>
-        </div>
-      </article>`,
-    )
-    .join("");
-}
+      </div>
+      <figure class="hero-image">
+        <img src="/samples/clinic/media/interior.jpg" alt="Warm modern private clinic reception">
+      </figure>
+    </section>
 
-function doctorCards() {
-  const doctors = [
-    ["Dr. Lina Haddad", "Consultant plastic surgeon", images.doctorA, "Facial surgery, rhinoplasty, eyelid surgery"],
-    ["Dr. Omar Nassar", "Aesthetic physician", images.doctorB, "Injectables, facial balancing, regenerative skin care"],
-    ["Dr. Maya Rafiq", "Dermatology lead", images.doctorC, "Laser protocols, acne scarring, pigmentation"],
-  ];
+    <section class="trust-strip" aria-label="Clinic values">
+      <div><strong>Doctor-led</strong><span>Every treatment begins with assessment and suitability.</span></div>
+      <div><strong>Measured</strong><span>Information is clear, realistic, and easy to act on.</span></div>
+      <div><strong>Private</strong><span>Photography, results, and follow-up are handled carefully.</span></div>
+    </section>
 
-  return doctors
-    .map(
-      ([name, role, image, focus]) => `<article class="doctor-card">
-        <img src="${image}" alt="${name}">
+    <section class="image-text">
+      <img src="/samples/clinic/media/team.jpg" alt="Aster Clinic medical team">
+      <div>
+        <p class="kicker">Clinical team</p>
+        <h2>A clinical team, not a rushed treatment menu.</h2>
+        <p>Patients are guided through what matters: who is treating them, what the treatment involves, what recovery can look like, and whether a procedure is suitable at all.</p>
+        <a class="text-link" href="/samples/clinic/doctors/index.html">Meet the team</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-top">
         <div>
-          <p class="eyebrow">${role}</p>
-          <h3>${name}</h3>
-          <p>${focus}</p>
-          <a href="${href("book")}">Book consultation ${arrow()}</a>
+          <p class="kicker">Treatments</p>
+          <h2>Clear paths of care.</h2>
         </div>
-      </article>`,
-    )
-    .join("");
-}
-
-function homePage() {
-  return `<section class="hero">
-    <div class="hero-copy">
-      <p class="eyebrow">Private aesthetic clinic - Abdoun</p>
-      <h1>Considered aesthetic care, led by doctors.</h1>
-      <p>Aster Clinic brings surgical consultation, facial aesthetics, skin health, and follow-up care into one quiet clinical setting.</p>
-      <div class="button-row">
-        <a class="button" href="${href("book")}">Book consultation ${arrow()}</a>
-        <a class="button button-soft" href="${href("portfolio")}">View results</a>
+        <a class="text-link" href="/samples/clinic/services/index.html">All treatments</a>
       </div>
-    </div>
-    <div class="hero-media">
-      <img src="${images.hero}" alt="Modern private clinic reception and corridor">
-      <div class="hero-panel">
-        <span>01</span>
-        <strong>Consult first</strong>
-        <p>Clear assessment before any treatment is recommended.</p>
+      <div class="card-grid">${treatmentCards}</div>
+    </section>
+
+    <section class="result-feature">
+      <div>
+        <p class="kicker">Results</p>
+        <h2>Matched photography. Realistic expectations.</h2>
+        <p>Results are shown with consistent angle, lighting, and timing so patients can understand outcomes responsibly.</p>
+        <a class="text-link" href="/samples/clinic/portfolio/index.html">View result approach</a>
       </div>
-    </div>
-  </section>
-  <section class="trust-row">
-    <div><strong>Doctor-led</strong><span>Consultations and treatment planning led by licensed clinicians.</span></div>
-    <div><strong>Evidence-based</strong><span>Plain medical information, suitability, downtime, and aftercare.</span></div>
-    <div><strong>Consent-first</strong><span>Photography and results handled with privacy and documented consent.</span></div>
-  </section>
-  <section class="split-section">
-    <img src="${images.room}" alt="Doctor reviewing medical information in a clinic">
-    <div>
-      <p class="eyebrow">The approach</p>
-      <h2>Clean information, quiet confidence, and no clutter.</h2>
-      <p>Patients arrive with questions. The website answers them clearly: what a treatment is for, who it may suit, what recovery can involve, and when to speak with a doctor.</p>
-      <a class="text-link" href="${href("patient-info")}">Read patient information ${arrow()}</a>
-    </div>
-  </section>
-  <section class="section-block">
-    <div class="section-heading">
-      <p class="eyebrow">Treatments</p>
-      <h2>Focused treatment paths.</h2>
-      <a class="text-link" href="${href("services")}">All treatments ${arrow()}</a>
-    </div>
-    <div class="treatment-grid">${treatmentCards()}</div>
-  </section>
-  <section class="section-block surface">
-    <div class="section-heading">
-      <p class="eyebrow">Results</p>
-      <h2>Before and after, presented responsibly.</h2>
-      <a class="text-link" href="${href("portfolio")}">Open results ${arrow()}</a>
-    </div>
-    <div class="results-grid">${resultCards()}</div>
-  </section>
-  <section class="doctors-preview">
-    <div>
-      <p class="eyebrow">Medical team</p>
-      <h2>Patients know who they are meeting before they book.</h2>
-      <p>Doctor profiles show qualifications, focus areas, and the kind of consultation each clinician leads.</p>
-      <a class="button button-soft" href="${href("doctors")}">Meet the doctors ${arrow()}</a>
-    </div>
-    <div class="doctor-strip">${doctorCards()}</div>
-  </section>
-  ${cta()}`;
+      <img src="/samples/clinic/media/result-face.jpg" alt="Matched before and after aesthetic clinic result">
+    </section>
+    ${consultCta()}`,
+  });
 }
 
-function servicesPage() {
-  return `${sectionIntro("Treatments", "Clear treatment information, without the noise.", "Each page is built around suitability, risks, downtime, aftercare, and the next best step for the patient.")}
-  <section class="treatment-grid treatment-grid-large">${treatmentCards()}</section>
-  <section class="detail-band">
-    <div>
-      <p class="eyebrow">How information is written</p>
-      <h2>Concise, factual, and easy to scan.</h2>
-      <p>Medical content avoids exaggerated claims. Patients see what the treatment is for, when it may not be suitable, and why consultation matters.</p>
-    </div>
-    <ul class="check-list">
-      <li>Suitability and contraindications</li>
-      <li>Expected recovery and review timeline</li>
-      <li>Preparation and aftercare notes</li>
-      <li>Clear calls to book or ask a question</li>
-    </ul>
-  </section>
-  ${cta()}`;
+function consultCta() {
+  return `<section class="consult-cta">
+    <p class="kicker">Consultation</p>
+    <h2>Start with a private assessment.</h2>
+    <a class="button light" href="/samples/clinic/book/index.html">Book consultation</a>
+  </section>`;
 }
 
-function resultsPage() {
-  return `${sectionIntro("Results", "A gallery that builds trust without overpromising.", "Before and after imagery is structured with consent, consistent photography, clinical notes, and careful expectations.")}
-  <section class="results-grid results-grid-page">${resultCards()}</section>
-  <section class="detail-band">
-    <div>
-      <p class="eyebrow">Photography standards</p>
-      <h2>Same angle. Same light. Same honesty.</h2>
-      <p>A premium clinic site should never make results feel like a trick. The gallery is designed for consistent framing and short clinician-reviewed notes.</p>
-    </div>
-    <img src="${images.treatment}" alt="Aesthetic treatment room prepared for patient care">
-  </section>
-  ${cta()}`;
+function services() {
+  page({
+    route: "services",
+    title: "Treatments",
+    description: "Clear medical information, suitability, recovery notes, and consultation paths.",
+    body: `<section class="section tight">
+      <div class="card-grid two">${treatmentCards}</div>
+    </section>
+    <section class="image-text reverse">
+      <img src="/samples/clinic/media/interior.jpg" alt="Private clinic treatment corridor">
+      <div>
+        <p class="kicker">How care is planned</p>
+        <h2>No pressure. No menu of promises.</h2>
+        <p>Each treatment page is written to explain suitability, preparation, downtime, alternatives, and when a doctor should advise against treatment.</p>
+        <ul class="check-list">
+          <li>Consultation before recommendation</li>
+          <li>Evidence-based patient information</li>
+          <li>Aftercare and follow-up built into the path</li>
+        </ul>
+      </div>
+    </section>
+    ${consultCta()}`,
+  });
+}
+
+function portfolio() {
+  page({
+    route: "portfolio",
+    title: "Results",
+    description: "A responsible result library with matched photography and clear clinical notes.",
+    body: `<section class="result-case">
+      <img src="/samples/clinic/media/result-face.jpg" alt="Matched before and after facial aesthetic result">
+      <div>
+        <p class="kicker">Case 01</p>
+        <h2>Facial balance and skin quality</h2>
+        <p>Shown as one matched case rather than unrelated images. Same patient, same angle, same lighting, and a subtle result that feels medically credible.</p>
+        <dl class="case-notes">
+          <div><dt>Focus</dt><dd>Skin texture, facial balance, recovery care</dd></div>
+          <div><dt>Timing</dt><dd>Final review after healing interval</dd></div>
+          <div><dt>Standard</dt><dd>Consent-led photography, consistent documentation</dd></div>
+        </dl>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="card-grid three">
+        <article class="quiet-card"><h3>Consent</h3><p>Images are used only with documented permission and clear treatment context.</p></article>
+        <article class="quiet-card"><h3>Consistency</h3><p>Angles, lighting, makeup, and timing are controlled to avoid misleading results.</p></article>
+        <article class="quiet-card"><h3>Expectation</h3><p>Every result is individual. Consultation explains what is realistic and safe.</p></article>
+      </div>
+    </section>
+    ${consultCta()}`,
+  });
 }
 
 function doctorsPage() {
-  return `${sectionIntro("Doctors", "A clinical team presented with calm authority.", "Patients should understand qualifications, focus areas, and who will guide their treatment plan.")}
-  <section class="doctor-grid">${doctorCards()}</section>
-  <section class="split-section reverse">
-    <img src="${images.consult}" alt="Doctor consultation in a private clinical office">
-    <div>
-      <p class="eyebrow">Consultation process</p>
-      <h2>Every treatment starts with a medical conversation.</h2>
-      <p>The doctor reviews goals, anatomy, history, medication, risk factors, and realistic timelines before recommending a plan.</p>
-      <a class="text-link" href="${href("book")}">Book consultation ${arrow()}</a>
-    </div>
-  </section>`;
-}
-
-function patientInfoPage() {
-  const items = [
-    ["Before you visit", "Bring previous procedure notes, current medication, allergies, and clear questions about goals or concerns."],
-    ["Suitability", "Not every treatment suits every patient. The consultation screens health history, skin type, anatomy, and expectations."],
-    ["Recovery", "Downtime depends on treatment type. Patients receive written aftercare and a review plan before leaving."],
-    ["Results", "Results vary. Aster uses consented photography, consistent review timing, and careful language around outcomes."],
-  ];
-
-  return `${sectionIntro("Patient information", "Straight answers before a patient books.", "This is where a healthcare website earns trust: preparation, safety, aftercare, and realistic expectations.")}
-  <section class="info-list">
-    ${items.map(([title, text]) => `<article><h2>${title}</h2><p>${text}</p></article>`).join("")}
-  </section>
-  <section class="detail-band">
-    <div>
-      <p class="eyebrow">Medical content</p>
-      <h2>Clear, concise, and regulation-aware.</h2>
-      <p>Clinical pages are written to inform rather than pressure. Claims are avoided unless they can be supported, and patients are directed to consultation for personal advice.</p>
-    </div>
-    <ul class="check-list">
-      <li>No miracle claims</li>
-      <li>No hidden recovery expectations</li>
-      <li>Consent-led photography</li>
-      <li>Easy contact paths</li>
-    </ul>
-  </section>`;
-}
-
-function contactPage() {
-  return `<section class="contact-layout">
-    <div>
-      <p class="eyebrow">Contact</p>
-      <h1>Speak with Aster Clinic.</h1>
-      <p>Book a consultation, ask a treatment question, or request patient information before your visit.</p>
-      <div class="contact-methods">
-        <a class="large-link" href="tel:+96265550184">+962 6 555 0184</a>
-        <a class="large-link" href="mailto:hello@asterclinic.jo">hello@asterclinic.jo</a>
+  page({
+    route: "doctors",
+    title: "Doctors",
+    description: "A small clinical team with clear roles and a restrained, patient-first approach.",
+    body: `<section class="image-text">
+      <img src="/samples/clinic/media/team.jpg" alt="Aster Clinic doctors and nurse practitioner">
+      <div>
+        <p class="kicker">Team</p>
+        <h2>The person you meet matters as much as the treatment.</h2>
+        <p>Profiles explain clinical focus, patient approach, and when each practitioner is involved in care.</p>
       </div>
-      <a class="button" href="${href("book")}">Book consultation ${arrow()}</a>
-    </div>
-    <img src="${images.hero}" alt="Aster Clinic reception and corridor">
-  </section>
-  <section class="location-grid">
-    <article><h2>Location</h2><p>Abdoun, Amman<br>Jordan</p></article>
-    <article><h2>Hours</h2><p>Sunday-Thursday<br>9:00 AM-6:00 PM</p></article>
-    <article><h2>Arrival</h2><p>Private reception, lift access, and discreet check-in available.</p></article>
-  </section>`;
+    </section>
+    <section class="section tight">
+      <div class="card-grid three">${doctorCards}</div>
+    </section>`,
+  });
 }
 
-function bookPage() {
-  return `${sectionIntro("Book consultation", "A considered first appointment.", "Tell the clinic what you want to understand. The team will confirm the right consultation type and next available time.")}
-  <section class="booking-layout">
-    <form class="booking-form">
-      ${["Full name", "Phone number", "Email", "Treatment interest"].map((label, index) => `<label><span>${label}</span><input ${index < 3 ? "required" : ""} type="${index === 1 ? "tel" : index === 2 ? "email" : "text"}"></label>`).join("")}
-      <label><span>Preferred date</span><input type="date"></label>
-      <label><span>Preferred time</span><select><option>Morning</option><option>Afternoon</option><option>No preference</option></select></label>
-      <label class="full"><span>What would you like to discuss?</span><textarea rows="5"></textarea></label>
-      <button class="button" type="submit">Request consultation ${arrow()}</button>
-      <p class="form-note" role="status" hidden>Thank you. The clinic will contact you to confirm the appointment.</p>
-    </form>
-    <aside class="booking-aside">
-      <img src="${images.consult}" alt="Doctor consultation in a clinic office">
-      <h2>What happens next</h2>
-      <p>A coordinator reviews your request, confirms the consultation type, and shares preparation notes before your appointment.</p>
-    </aside>
-  </section>`;
+function patientInfo() {
+  page({
+    route: "patient-info",
+    title: "Patient information",
+    description: "Plain preparation, recovery, safety, and follow-up guidance.",
+    body: `<section class="section tight">
+      <div class="card-grid two">
+        <article class="quiet-card"><h3>Before consultation</h3><p>Bring your history, current medication, previous procedures, allergies, and goals. The first appointment is for assessment, not pressure.</p></article>
+        <article class="quiet-card"><h3>Before treatment</h3><p>Preparation notes are specific to treatment type and may include medication guidance, skincare pauses, and recovery planning.</p></article>
+        <article class="quiet-card"><h3>After treatment</h3><p>Patients receive written aftercare, expected recovery signs, and clear instructions for urgent concerns.</p></article>
+        <article class="quiet-card"><h3>Follow-up</h3><p>Review appointments document healing, answer questions, and decide whether refinement is appropriate.</p></article>
+      </div>
+    </section>`,
+  });
 }
 
-function aboutPage() {
-  return `${sectionIntro("About", "A private clinic built around calm, clarity, and restraint.", "Aster combines surgical expertise, skin health, clinical photography, and structured follow-up in one patient-centred setting.")}
-  <section class="split-section">
-    <img src="${images.hero}" alt="Modern clinic interior">
-    <div>
-      <p class="eyebrow">Brand experience</p>
-      <h2>Premium without feeling cold.</h2>
-      <p>The clinic brand uses warm materials, concise language, real people, and clear medical pathways. The site feels polished because it removes uncertainty rather than adding decoration.</p>
-      <a class="text-link" href="${href("services")}">Explore treatments ${arrow()}</a>
-    </div>
-  </section>
-  <section class="values-grid">
-    <article><h2>Clarity</h2><p>Patients understand the treatment, recovery, and consultation process.</p></article>
-    <article><h2>Evidence</h2><p>Medical information is factual, restrained, and reviewed by clinicians.</p></article>
-    <article><h2>Privacy</h2><p>Photography, booking, and patient communication are handled discreetly.</p></article>
-  </section>`;
+function contact() {
+  page({
+    route: "contact",
+    title: "Contact",
+    description: "Speak with the clinic or book a private consultation.",
+    body: `<section class="contact-panel">
+      <div>
+        <p class="kicker">Aster Clinic</p>
+        <h2>Abdoun, Amman</h2>
+        <p>Sunday to Thursday, 9:00 - 18:00</p>
+      </div>
+      <div class="contact-links">
+        <a href="tel:+962798509111">+962 79 850 9111</a>
+        <a href="mailto:care@asterclinic.com">care@asterclinic.com</a>
+        <a class="button" href="/samples/clinic/book/index.html">Book consultation</a>
+      </div>
+    </section>`,
+  });
 }
 
-function standardsPage() {
-  return `${sectionIntro("Clinical standards", "A healthcare site should earn trust before it sells.", "Aster's content model is built around brand consistency, factual medical information, high-quality imagery, and clear patient action.")}
-  <section class="standards">
-    <article><span>01</span><h2>Clean, branded design</h2><p>Consistent typography, photography, tone, and spacing make the clinic memorable without adding clutter.</p></article>
-    <article><span>02</span><h2>Clear medical information</h2><p>Treatment content explains conditions, suitability, downtime, and aftercare in plain language.</p></article>
-    <article><span>03</span><h2>Engaging health content</h2><p>Patient education, results notes, and doctor insight establish authority without exaggerated claims.</p></article>
-    <article><span>04</span><h2>Strong calls to action</h2><p>Patients can book, call, email, or read preparation guidance without searching.</p></article>
-    <article><span>05</span><h2>High-quality imagery</h2><p>Clinic interiors, doctors, treatment rooms, and results photography make the service feel real and credible.</p></article>
-  </section>`;
+function book() {
+  page({
+    route: "book",
+    title: "Book consultation",
+    description: "Request a private consultation with the Aster Clinic team.",
+    body: `<section class="booking-layout">
+      <form class="booking-form">
+        <label><span>Name</span><input name="name" autocomplete="name" required></label>
+        <label><span>Phone</span><input name="phone" autocomplete="tel" required></label>
+        <label><span>Interest</span><select name="interest"><option>Facial surgery consultation</option><option>Skin health</option><option>Injectables</option><option>Not sure yet</option></select></label>
+        <label><span>Preferred day</span><select name="day"><option>Sunday</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option></select></label>
+        <label class="full"><span>Message</span><textarea name="message" rows="5" placeholder="Tell us what you would like to discuss."></textarea></label>
+        <button class="button full" type="submit">Request consultation</button>
+        <p class="form-note" hidden>Thank you. The clinic will contact you to confirm the appointment.</p>
+      </form>
+      <img src="/samples/clinic/media/interior.jpg" alt="Aster Clinic private reception">
+    </section>`,
+  });
 }
 
-const css = `@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+function about() {
+  page({
+    route: "about",
+    title: "About Aster",
+    description: "A quiet private clinic built around clarity, privacy, and measured care.",
+    body: `<section class="image-text">
+      <img src="/samples/clinic/media/interior.jpg" alt="Aster Clinic interior">
+      <div>
+        <p class="kicker">Definition</p>
+        <h2>Care that feels clear before it feels cosmetic.</h2>
+        <p>Aster Clinic is designed for patients who want careful information, subtle outcomes, and a clinical team that explains the full path before treatment begins.</p>
+      </div>
+    </section>`,
+  });
+}
+
+function standards() {
+  page({
+    route: "case-study",
+    title: "Clinical standards",
+    description: "How Aster presents information, photography, consent, and follow-up.",
+    body: `<section class="section tight">
+      <div class="card-grid two">
+        <article class="quiet-card"><h3>Information</h3><p>Treatment information is written plainly, with suitability, risks, recovery, and alternatives kept visible.</p></article>
+        <article class="quiet-card"><h3>Photography</h3><p>Result photography is consent-led and matched for angle, light, timing, and context.</p></article>
+        <article class="quiet-card"><h3>Privacy</h3><p>Patient information and imagery are handled with clear consent and minimal exposure.</p></article>
+        <article class="quiet-card"><h3>Follow-up</h3><p>Care continues after treatment with review appointments and written aftercare.</p></article>
+      </div>
+    </section>`,
+  });
+}
+
+const css = `@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap");
 
 :root {
-  --ink: #111820;
-  --muted: #53606b;
-  --paper: #f7f5ef;
+  --ink: #20211e;
+  --muted: #686d64;
+  --paper: #f8f5ee;
   --surface: #fffdf8;
-  --sage: #64746a;
-  --blue: #16263a;
-  --gold: #b59a63;
-  --line: rgba(17, 24, 32, 0.14);
-  --shadow: 0 24px 70px rgba(17, 24, 32, 0.1);
+  --stone: #ded8ca;
+  --line: rgba(32, 33, 30, 0.12);
+  --sage: #768071;
+  --moss: #354139;
+  --warm: #b49a75;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; overflow-x: hidden; background: var(--paper); }
+html { overflow-x: hidden; background: var(--paper); scroll-behavior: smooth; }
 body {
   margin: 0;
   overflow-x: hidden;
   background: var(--paper);
   color: var(--ink);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: Geist, "Avenir Next", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.65;
   text-rendering: optimizeLegibility;
 }
 
@@ -474,17 +412,17 @@ a { color: inherit; text-decoration: none; }
 img { display: block; width: 100%; height: auto; }
 button, input, select, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
-:focus-visible { outline: 3px solid rgba(181, 154, 99, 0.65); outline-offset: 3px; }
+:focus-visible { outline: 3px solid rgba(180, 154, 117, 0.55); outline-offset: 3px; }
 
 .skip-link {
   position: fixed;
-  top: 12px;
-  left: 12px;
+  left: 16px;
+  top: 16px;
   z-index: 100;
+  transform: translateY(-180%);
   background: var(--ink);
   color: white;
   padding: 10px 14px;
-  transform: translateY(-160%);
 }
 .skip-link:focus { transform: translateY(0); }
 
@@ -495,84 +433,72 @@ button, a { -webkit-tap-highlight-color: transparent; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  min-height: 76px;
-  padding: 0 clamp(18px, 4vw, 44px);
+  min-height: 72px;
+  padding: 0 clamp(18px, 4vw, 48px);
   border-bottom: 1px solid var(--line);
-  background: rgba(247, 245, 239, 0.92);
+  background: rgba(248, 245, 238, 0.9);
   backdrop-filter: blur(16px);
 }
 
 .brand {
   display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  min-width: max-content;
+  flex-direction: column;
+  gap: 0;
 }
-
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--ink);
-  border-radius: 50%;
+.brand span {
   color: var(--ink);
+  font-size: 1rem;
   font-weight: 700;
 }
-
-.brand strong {
-  display: block;
-  font-size: 0.9rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .brand small {
-  display: block;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.76rem;
 }
 
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: clamp(14px, 2vw, 28px);
+  gap: clamp(18px, 2.5vw, 34px);
   color: var(--muted);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.84rem;
+  font-weight: 600;
 }
-
 .desktop-nav a {
-  padding: 28px 0;
-  border-bottom: 2px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  min-height: 72px;
+  border-bottom: 1px solid transparent;
 }
-
 .desktop-nav a:hover,
 .desktop-nav a.active {
   color: var(--ink);
-  border-color: var(--gold);
+  border-color: var(--warm);
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
-
+.book-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 18px;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
 .menu-button {
   display: none;
   width: 44px;
   height: 44px;
   border: 1px solid var(--line);
-  border-radius: 50%;
+  border-radius: 999px;
   background: var(--surface);
   color: var(--ink);
-  cursor: pointer;
 }
-
 .menu-button span,
 .menu-button::before,
 .menu-button::after {
@@ -583,459 +509,291 @@ button, a { -webkit-tap-highlight-color: transparent; }
   background: currentColor;
   content: "";
 }
-
 .menu-button span { margin-block: 5px; }
 
 .mobile-nav {
   position: fixed;
-  inset: 76px 0 auto;
+  inset: 72px 0 auto;
   z-index: 25;
   display: none;
-  padding: 22px;
+  gap: 10px;
   border-bottom: 1px solid var(--line);
   background: var(--surface);
+  padding: 18px;
 }
-
-.mobile-nav.open {
-  display: grid;
-  gap: 12px;
-}
-
+.mobile-nav.open { display: grid; }
 .mobile-nav a:not(.button) {
-  padding: 12px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 1.08rem;
-  font-weight: 700;
+  padding: 12px 0;
+  font-weight: 600;
 }
 
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   min-height: 48px;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--moss);
   border-radius: 999px;
-  background: var(--ink);
+  background: var(--moss);
   color: white;
-  padding: 0 20px;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  padding: 0 22px;
+  font-size: 0.9rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.button.ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.button.light {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--surface);
+}
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.button:hover { background: var(--blue); border-color: var(--blue); }
-.button-soft { background: transparent; color: var(--ink); border-color: var(--line); }
-.button-soft:hover { background: var(--surface); color: var(--ink); border-color: var(--gold); }
-.button-light { background: var(--surface); color: var(--ink); border-color: var(--surface); }
-.button-light:hover { background: #eef0e9; border-color: #eef0e9; }
-.button-small { min-height: 40px; padding-inline: 16px; font-size: 0.72rem; }
-.button-row { display: flex; flex-wrap: wrap; gap: 12px; }
-
-.eyebrow {
+.kicker {
   margin: 0 0 12px;
   color: var(--sage);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 0.84rem;
+  font-weight: 700;
 }
 
 h1, h2, h3, p { margin-top: 0; }
 h1, h2, h3 {
   color: var(--ink);
-  line-height: 1.05;
-  letter-spacing: -0.025em;
+  line-height: 1.12;
+  letter-spacing: 0;
 }
-h1 { max-width: 980px; font-size: clamp(2.7rem, 7vw, 6.7rem); }
-h2 { font-size: clamp(2rem, 4vw, 4.2rem); }
-h3 { font-size: 1.35rem; }
+h1 {
+  max-width: 780px;
+  font-size: clamp(2.2rem, 4.4vw, 4.35rem);
+  font-weight: 550;
+}
+h2 {
+  max-width: 700px;
+  font-size: clamp(1.68rem, 3vw, 3rem);
+  font-weight: 550;
+}
+h3 {
+  font-size: 1.08rem;
+  font-weight: 650;
+}
 p { color: var(--muted); }
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(380px, 1.1fr);
-  gap: clamp(28px, 5vw, 72px);
+  grid-template-columns: minmax(0, 0.78fr) minmax(420px, 1fr);
+  gap: clamp(32px, 6vw, 84px);
   align-items: center;
-  min-height: calc(100svh - 76px);
-  padding: clamp(34px, 7vw, 92px) clamp(18px, 4vw, 44px);
+  min-height: calc(100svh - 72px);
+  padding: clamp(56px, 8vw, 112px) clamp(18px, 4vw, 48px);
 }
-
-.hero-copy p:not(.eyebrow) {
-  max-width: 620px;
-  font-size: clamp(1rem, 1.5vw, 1.18rem);
+.hero-copy p:not(.kicker) {
+  max-width: 560px;
+  font-size: clamp(1.02rem, 1.4vw, 1.18rem);
 }
-
-.hero-media {
-  position: relative;
-  min-height: 640px;
+.hero-image {
+  margin: 0;
   overflow: hidden;
   border-radius: 8px;
-  background: #d8ddd7;
+  background: var(--stone);
 }
-
-.hero-media img,
-.split-section > img,
-.detail-band > img,
-.contact-layout > img,
-.booking-aside img {
-  height: 100%;
+.hero-image img {
+  aspect-ratio: 1.08 / 1;
   object-fit: cover;
 }
 
-.hero-panel {
-  position: absolute;
-  right: 22px;
-  bottom: 22px;
-  width: min(310px, calc(100% - 44px));
-  padding: 20px;
-  border: 1px solid rgba(255,255,255,0.65);
-  border-radius: 8px;
-  background: rgba(255, 253, 248, 0.9);
-  box-shadow: var(--shadow);
-}
-
-.hero-panel span {
-  color: var(--gold);
-  font-size: 0.74rem;
-  font-weight: 800;
-}
-
-.hero-panel strong {
-  display: block;
-  margin: 6px 0;
-  font-size: 1.05rem;
-}
-
-.hero-panel p { margin: 0; font-size: 0.9rem; }
-
-.trust-row {
+.trust-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   border-block: 1px solid var(--line);
+  background: rgba(255, 253, 248, 0.48);
 }
-
-.trust-row div {
-  min-height: 150px;
-  padding: clamp(22px, 4vw, 42px);
+.trust-strip div {
+  min-height: 128px;
   border-right: 1px solid var(--line);
+  padding: clamp(22px, 4vw, 38px);
+}
+.trust-strip div:last-child { border-right: 0; }
+.trust-strip strong {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 650;
+}
+.trust-strip span { color: var(--muted); }
+
+.page-lead {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(34px, 5vw, 58px) clamp(18px, 4vw, 48px) clamp(10px, 2vw, 20px);
+}
+.page-lead h1 {
+  max-width: 760px;
+  margin-bottom: 16px;
+  font-size: clamp(1.95rem, 3.4vw, 3.2rem);
+}
+.page-lead p:not(.kicker) {
+  max-width: 640px;
+  font-size: 1.04rem;
 }
 
-.trust-row div:last-child { border-right: 0; }
-.trust-row strong { display: block; margin-bottom: 8px; font-size: 1.1rem; }
-.trust-row span { color: var(--muted); }
-
-.split-section,
-.contact-layout,
+.section,
+.image-text,
+.result-feature,
+.result-case,
 .booking-layout,
-.detail-band {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(28px, 6vw, 86px);
-  align-items: center;
-  padding: clamp(56px, 8vw, 120px) clamp(18px, 4vw, 44px);
+.contact-panel {
+  padding: clamp(54px, 8vw, 104px) clamp(18px, 4vw, 48px);
 }
-
-.split-section.reverse > img { order: 2; }
-.split-section > img,
-.detail-band > img,
-.contact-layout > img,
-.booking-aside img {
-  min-height: 520px;
-  border-radius: 8px;
+.page-lead + .section,
+.page-lead + .image-text,
+.page-lead + .result-case,
+.page-lead + .booking-layout,
+.page-lead + .contact-panel {
+  padding-top: clamp(18px, 3vw, 34px);
 }
-
-.split-section p,
-.detail-band p,
-.contact-layout p,
-.booking-aside p {
-  max-width: 620px;
-}
-
-.text-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid var(--ink);
-  padding-bottom: 6px;
-  color: var(--ink);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.section-block {
-  padding: clamp(56px, 8vw, 110px) clamp(18px, 4vw, 44px);
-}
-
-.surface { background: #edece4; }
-
-.section-heading {
+.section.tight { padding-top: clamp(28px, 5vw, 56px); }
+.section-top {
   display: flex;
   align-items: end;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
-
-.section-heading h2 { max-width: 760px; margin-bottom: 0; }
-
-.treatment-grid,
-.doctor-grid,
-.results-grid,
-.values-grid,
-.info-list,
-.standards,
-.location-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  padding: clamp(34px, 5vw, 70px) clamp(18px, 4vw, 44px);
-}
-
-.section-block .treatment-grid,
-.section-block .results-grid {
-  padding: 0;
-}
-
-.treatment-grid-large { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-.treatment-card,
-.values-grid article,
-.info-list article,
-.standards article,
-.location-grid article {
-  min-height: 310px;
-  padding: 26px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-}
-
-.treatment-card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.treatment-card > span,
-.standards span {
-  color: var(--gold);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-}
-
-.treatment-card p { flex: 1; }
-.treatment-card small {
-  display: block;
-  margin-bottom: 18px;
-  color: var(--sage);
+.text-link {
+  display: inline-flex;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 5px;
+  color: var(--ink);
   font-weight: 700;
 }
-.treatment-card a,
-.doctor-card a {
-  margin-top: auto;
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.card-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.quiet-card {
+  min-height: 230px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 24px;
+}
+.quiet-card p { margin-bottom: 20px; }
+.quiet-card a,
+.doctor-item span {
   color: var(--ink);
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.88rem;
+  font-weight: 700;
 }
 
-.results-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.results-grid-page {
-  padding-top: 20px;
-}
-
-.result-card {
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-}
-
-.compare {
+.image-text,
+.result-feature,
+.result-case,
+.booking-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 360px;
-}
-
-.compare figure {
-  position: relative;
-  margin: 0;
-  overflow: hidden;
-}
-
-.compare img {
-  height: 100%;
-  object-fit: cover;
-}
-
-.compare figure:first-child img {
-  filter: saturate(0.78) contrast(0.95);
-}
-
-.compare figcaption {
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
-  border-radius: 999px;
-  background: rgba(17, 24, 32, 0.8);
-  color: white;
-  padding: 6px 9px;
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.result-copy { padding: 22px; }
-.result-copy p:last-child { margin-bottom: 0; }
-
-.doctors-preview {
-  display: grid;
-  grid-template-columns: 0.75fr 1.25fr;
-  gap: clamp(24px, 5vw, 64px);
-  padding: clamp(56px, 8vw, 110px) clamp(18px, 4vw, 44px);
-}
-
-.doctor-strip,
-.doctor-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.doctor-strip {
-  display: grid;
-  gap: 16px;
-}
-
-.doctor-card {
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-}
-
-.doctor-card img {
-  aspect-ratio: 4 / 4.8;
-  object-fit: cover;
-  object-position: center top;
-}
-
-.doctor-card div { padding: 22px; }
-
-.consult-strip {
-  display: flex;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
+  gap: clamp(30px, 6vw, 86px);
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  margin: clamp(18px, 4vw, 44px);
-  padding: clamp(28px, 5vw, 54px);
+}
+.image-text.reverse img { order: 2; }
+.image-text img,
+.result-feature img,
+.result-case img,
+.booking-layout img {
+  overflow: hidden;
   border-radius: 8px;
-  background: var(--blue);
-  color: white;
+  aspect-ratio: 1.15 / 1;
+  object-fit: cover;
+  background: var(--stone);
 }
-
-.consult-strip h2,
-.consult-strip .eyebrow { color: white; }
-.consult-strip h2 { max-width: 760px; margin: 0; }
-
-.page-lead {
-  display: grid;
-  grid-template-columns: 0.32fr 1fr;
-  gap: clamp(24px, 6vw, 88px);
-  padding: clamp(42px, 7vw, 90px) clamp(18px, 4vw, 44px) clamp(24px, 4vw, 52px);
-  border-bottom: 1px solid var(--line);
+.result-feature {
+  background: #eeebe3;
 }
-
-.page-lead h1 {
-  max-width: 960px;
-  margin-bottom: 16px;
-  font-size: clamp(2.25rem, 5vw, 5rem);
-}
-
-.page-lead p:not(.eyebrow) {
-  max-width: 690px;
-  font-size: 1.05rem;
-}
-
-.detail-band {
-  background: #edece4;
+.result-feature img,
+.result-case img {
+  aspect-ratio: 1.45 / 1;
 }
 
 .check-list {
   display: grid;
-  gap: 12px;
-  margin: 0;
+  gap: 10px;
+  margin: 24px 0 0;
   padding: 0;
   list-style: none;
 }
-
 .check-list li {
-  border-bottom: 1px solid var(--line);
-  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
   color: var(--ink);
-  font-weight: 700;
+  font-weight: 600;
 }
 
-.info-list {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.standards {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-}
-
-.contact-layout h1 { font-size: clamp(2.6rem, 6vw, 5.8rem); }
-.contact-methods {
+.case-notes {
   display: grid;
-  gap: 10px;
-  margin: 30px 0;
+  gap: 14px;
+  margin: 24px 0 0;
 }
-
-.large-link {
+.case-notes div {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.case-notes dt {
   color: var(--ink);
-  font-size: clamp(1.3rem, 2.6vw, 2.2rem);
   font-weight: 700;
 }
+.case-notes dd {
+  margin: 2px 0 0;
+  color: var(--muted);
+}
 
-.location-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding-top: 0;
+.contact-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.contact-links {
+  display: grid;
+  gap: 12px;
+}
+.contact-links a:not(.button) {
+  border-bottom: 1px solid var(--line);
+  padding: 12px 0;
+  color: var(--ink);
+  font-size: clamp(1.15rem, 2vw, 1.6rem);
+  font-weight: 600;
 }
 
 .booking-layout {
   align-items: start;
 }
-
 .booking-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: 16px;
 }
-
 .booking-form label {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 8px;
 }
-
-.booking-form label span {
+.booking-form span {
   color: var(--ink);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 0.84rem;
+  font-weight: 700;
 }
-
 .booking-form input,
 .booking-form select,
 .booking-form textarea {
@@ -1047,167 +805,136 @@ p { color: var(--muted); }
   color: var(--ink);
   padding: 12px 14px;
 }
-
 .booking-form .full,
 .booking-form button,
-.form-note {
-  grid-column: 1 / -1;
-}
-
+.form-note { grid-column: 1 / -1; }
 .form-note {
   margin: 0;
   border-radius: 8px;
-  background: #e5eadf;
+  background: #e9eee5;
   color: var(--ink);
   padding: 14px;
 }
 
-.booking-aside {
-  border: 1px solid var(--line);
+.consult-cta {
+  margin: clamp(18px, 4vw, 48px);
   border-radius: 8px;
-  background: var(--surface);
-  overflow: hidden;
+  background: var(--moss);
+  color: white;
+  padding: clamp(34px, 5vw, 58px);
 }
-
-.booking-aside img { min-height: 360px; }
-.booking-aside h2,
-.booking-aside p { margin-inline: 24px; }
-.booking-aside h2 { margin-top: 24px; }
-.booking-aside p { margin-bottom: 24px; }
+.consult-cta h2,
+.consult-cta .kicker { color: white; }
+.consult-cta h2 { margin-bottom: 20px; }
 
 .footer {
-  background: #0f1419;
-  color: white;
-  padding: clamp(44px, 6vw, 74px) clamp(18px, 4vw, 44px) 88px;
-}
-
-.footer-inner {
   display: grid;
-  grid-template-columns: 1.5fr repeat(3, 1fr);
-  gap: clamp(24px, 5vw, 70px);
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: clamp(24px, 5vw, 72px);
+  background: #20211e;
+  color: white;
+  padding: clamp(42px, 6vw, 72px) clamp(18px, 4vw, 48px) 94px;
 }
-
 .footer p,
 .footer a,
-.footer small {
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.footer h2 {
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.footer a {
-  display: block;
-  margin-bottom: 8px;
-}
-
-.footer-brand { color: white; margin-bottom: 16px; }
-.footer-brand .brand-mark { border-color: rgba(255,255,255,0.45); color: white; }
+.footer span,
+.footer small { color: rgba(255, 255, 255, 0.68); }
+.footer a,
+.footer span { display: block; margin-bottom: 8px; }
+.footer-brand span { color: white; }
 
 .mobile-cta { display: none; }
 
-@media (max-width: 1080px) {
+@media (max-width: 1040px) {
   .desktop-nav { display: none; }
   .menu-button { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; }
   .hero,
-  .split-section,
-  .contact-layout,
+  .image-text,
+  .result-feature,
+  .result-case,
   .booking-layout,
-  .detail-band,
-  .doctors-preview,
-  .page-lead {
+  .contact-panel,
+  .footer {
     grid-template-columns: 1fr;
   }
-  .hero { min-height: auto; }
-  .hero-media { min-height: 520px; }
-  .trust-row,
-  .treatment-grid,
-  .treatment-grid-large,
-  .results-grid,
-  .doctor-strip,
-  .doctor-grid,
-  .values-grid,
-  .info-list,
-  .standards,
-  .location-grid,
-  .footer-inner {
+  .hero {
+    min-height: auto;
+  }
+  .hero-image img {
+    aspect-ratio: 1.25 / 1;
+  }
+  .image-text.reverse img { order: 0; }
+  .card-grid,
+  .card-grid.two,
+  .card-grid.three,
+  .trust-strip {
     grid-template-columns: 1fr 1fr;
   }
-  .split-section.reverse > img { order: 0; }
 }
 
 @media (max-width: 680px) {
   body { padding-bottom: 72px; }
-  .site-header { min-height: 68px; padding-inline: 16px; }
-  .brand small { display: none; }
-  .header-actions .button-small { display: none; }
-  .mobile-nav { inset-block-start: 68px; }
-  h1 { font-size: clamp(2.35rem, 12vw, 3.35rem); line-height: 1.08; }
-  h2 { font-size: clamp(1.9rem, 10vw, 3rem); }
-  .hero { padding-top: 34px; }
-  .hero-copy,
-  .hero-media {
-    max-width: min(100%, 358px);
-  }
-  .hero-copy p:not(.eyebrow) { font-size: 1rem; }
-  .button-row { display: grid; grid-template-columns: 1fr; }
-  .button-row .button { width: 100%; }
-  .hero,
-  .split-section,
-  .contact-layout,
-  .booking-layout,
-  .detail-band,
-  .doctors-preview,
-  .page-lead,
-  .section-block,
-  .treatment-grid,
-  .doctor-grid,
-  .results-grid,
-  .values-grid,
-  .info-list,
-  .standards,
-  .location-grid {
+  .site-header {
+    min-height: 66px;
     padding-inline: 16px;
   }
-  .hero-media,
-  .split-section > img,
-  .detail-band > img,
-  .contact-layout > img,
-  .booking-aside img {
-    min-height: 360px;
+  .brand small,
+  .book-link { display: none; }
+  .mobile-nav { inset-block-start: 66px; }
+  h1 { font-size: clamp(2rem, 8.6vw, 2.68rem); line-height: 1.14; }
+  h2 { font-size: clamp(1.65rem, 8vw, 2.35rem); }
+  .hero,
+  .section,
+  .image-text,
+  .result-feature,
+  .result-case,
+  .booking-layout,
+  .contact-panel {
+    padding-inline: 16px;
   }
-  .trust-row,
-  .treatment-grid,
-  .treatment-grid-large,
-  .results-grid,
-  .doctor-strip,
-  .doctor-grid,
-  .values-grid,
-  .info-list,
-  .standards,
-  .location-grid,
-  .footer-inner,
-  .booking-form {
+  .hero {
+    display: block;
+    gap: 28px;
+    padding-top: 40px;
+  }
+  .hero-copy,
+  .hero-image {
+    width: 100%;
+    max-width: 358px;
+  }
+  .hero-copy {
+    margin-bottom: 28px;
+  }
+  .button-row,
+  .booking-form,
+  .card-grid,
+  .card-grid.two,
+  .card-grid.three,
+  .trust-strip {
     grid-template-columns: 1fr;
   }
-  .section-heading,
-  .consult-strip {
+  .button-row { display: grid; }
+  .button { width: 100%; }
+  .trust-strip div {
+    min-height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .quiet-card {
+    min-height: auto;
+    padding: 22px;
+  }
+  .hero-image img,
+  .image-text img,
+  .result-feature img,
+  .result-case img,
+  .booking-layout img {
+    aspect-ratio: 1 / 0.92;
+  }
+  .section-top {
     align-items: flex-start;
     flex-direction: column;
   }
-  .treatment-card,
-  .values-grid article,
-  .info-list article,
-  .standards article {
-    min-height: auto;
-  }
-  .compare { min-height: 260px; }
-  .footer { padding-bottom: 96px; }
   .mobile-cta {
     position: fixed;
     inset-inline: 0;
@@ -1215,12 +942,11 @@ p { color: var(--muted); }
     z-index: 40;
     display: grid;
     grid-template-columns: 0.8fr 1.2fr;
+    gap: 8px;
     border-top: 1px solid var(--line);
     background: var(--surface);
     padding: 8px;
-    gap: 8px;
   }
-  .mobile-cta .button { min-height: 52px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1232,44 +958,33 @@ p { color: var(--muted); }
 }
 `;
 
-const js = `(() => {
-  const menuButton = document.querySelector(".menu-button");
-  const mobileNav = document.querySelector(".mobile-nav");
-  if (menuButton && mobileNav) {
-    menuButton.addEventListener("click", () => {
-      const open = mobileNav.classList.toggle("open");
-      menuButton.setAttribute("aria-expanded", String(open));
-      menuButton.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    });
-    mobileNav.addEventListener("click", (event) => {
-      if (event.target.closest("a")) {
-        mobileNav.classList.remove("open");
-        menuButton.setAttribute("aria-expanded", "false");
-        menuButton.setAttribute("aria-label", "Open menu");
-      }
-    });
-  }
+const js = `const menuButton = document.querySelector(".menu-button");
+const mobileNav = document.querySelector(".mobile-nav");
+menuButton?.addEventListener("click", () => {
+  const open = mobileNav?.classList.toggle("open") ?? false;
+  menuButton.setAttribute("aria-expanded", String(open));
+});
 
-  const form = document.querySelector(".booking-form");
-  if (form) {
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const note = form.querySelector(".form-note");
-      if (note) note.hidden = false;
-    });
-  }
-})();
+document.querySelector(".booking-form")?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  event.currentTarget.querySelector(".form-note")?.removeAttribute("hidden");
+});
 `;
 
 rmSync(target, { recursive: true, force: true });
-mkdirSync(target, { recursive: true });
+ensureDir(target);
+cpSync(assetSource, path.join(target, "media"), { recursive: true });
 writeFileSync(path.join(target, "aster.css"), css);
 writeFileSync(path.join(target, "aster.js"), js);
 
-for (const [route, page] of Object.entries(pages)) {
-  const dir = route === "index" ? target : path.join(target, route);
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(path.join(dir, "index.html"), shell(page));
-}
+home();
+services();
+portfolio();
+doctorsPage();
+patientInfo();
+contact();
+book();
+about();
+standards();
 
-console.log(`Rebuilt clinic sample at ${target}`);
+console.log(`Rebuilt calmer clinic sample at ${target}`);

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Book Consultation - Aster Clinic</title>
-  <meta name="description" content="Book a private consultation with Aster Clinic.">
+  <title>Book consultation - Aster Clinic</title>
+  <meta name="description" content="Request a private consultation with the Aster Clinic team.">
   <link rel="icon" href="/favicon.png" sizes="512x512" type="image/png">
   <link rel="stylesheet" href="/samples/clinic/aster.css">
   <script defer src="/samples/clinic/aster.js"></script>
@@ -13,54 +13,60 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <a class="brand" href="/samples/clinic/index.html" aria-label="Aster Clinic home">
-      <span class="brand-mark">A</span>
-      <span><strong>Aster</strong><small>Private aesthetic clinic</small></span>
+      <span>Aster</span>
+      <small>Private aesthetic clinic</small>
     </a>
-    <nav class="desktop-nav" aria-label="Primary navigation"><a class="" href="/samples/clinic/index.html">Home</a><a class="" href="/samples/clinic/services/index.html">Treatments</a><a class="" href="/samples/clinic/portfolio/index.html">Results</a><a class="" href="/samples/clinic/doctors/index.html">Doctors</a><a class="" href="/samples/clinic/patient-info/index.html">Patient Info</a><a class="" href="/samples/clinic/contact/index.html">Contact</a></nav>
+    <nav class="desktop-nav" aria-label="Primary navigation"><a href="/samples/clinic/index.html">Home</a><a href="/samples/clinic/services/index.html">Treatments</a><a href="/samples/clinic/portfolio/index.html">Results</a><a href="/samples/clinic/doctors/index.html">Doctors</a><a href="/samples/clinic/patient-info/index.html">Patient Info</a><a href="/samples/clinic/contact/index.html">Contact</a></nav>
     <div class="header-actions">
-      <a class="button button-small" href="/samples/clinic/book/index.html">Book</a>
+      <a class="book-link" href="/samples/clinic/book/index.html">Book</a>
       <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
     </div>
   </header>
   <nav class="mobile-nav" aria-label="Mobile navigation">
-    <a class="" href="/samples/clinic/index.html">Home</a><a class="" href="/samples/clinic/services/index.html">Treatments</a><a class="" href="/samples/clinic/portfolio/index.html">Results</a><a class="" href="/samples/clinic/doctors/index.html">Doctors</a><a class="" href="/samples/clinic/patient-info/index.html">Patient Info</a><a class="" href="/samples/clinic/contact/index.html">Contact</a>
+    <a href="/samples/clinic/index.html">Home</a><a href="/samples/clinic/services/index.html">Treatments</a><a href="/samples/clinic/portfolio/index.html">Results</a><a href="/samples/clinic/doctors/index.html">Doctors</a><a href="/samples/clinic/patient-info/index.html">Patient Info</a><a href="/samples/clinic/contact/index.html">Contact</a>
     <a class="button" href="/samples/clinic/book/index.html">Book consultation</a>
   </nav>
-  <main id="main"><section class="page-lead">
-    <p class="eyebrow">Book consultation</p>
-    <div>
-      <h1>A considered first appointment.</h1>
-      <p>Tell the clinic what you want to understand. The team will confirm the right consultation type and next available time.</p>
-    </div>
-  </section>
-  <section class="booking-layout">
-    <form class="booking-form">
-      <label><span>Full name</span><input required type="text"></label><label><span>Phone number</span><input required type="tel"></label><label><span>Email</span><input required type="email"></label><label><span>Treatment interest</span><input  type="text"></label>
-      <label><span>Preferred date</span><input type="date"></label>
-      <label><span>Preferred time</span><select><option>Morning</option><option>Afternoon</option><option>No preference</option></select></label>
-      <label class="full"><span>What would you like to discuss?</span><textarea rows="5"></textarea></label>
-      <button class="button" type="submit">Request consultation <span aria-hidden="true">-&gt;</span></button>
-      <p class="form-note" role="status" hidden>Thank you. The clinic will contact you to confirm the appointment.</p>
-    </form>
-    <aside class="booking-aside">
-      <img src="https://images.unsplash.com/photo-1713085085470-fba013d67e65?auto=format&fit=crop&w=1500&q=84" alt="Doctor consultation in a clinic office">
-      <h2>What happens next</h2>
-      <p>A coordinator reviews your request, confirms the consultation type, and shares preparation notes before your appointment.</p>
-    </aside>
-  </section></main>
+  <main id="main">
+    <section class="page-lead">
+        <p class="kicker">Aster Clinic</p>
+        <h1>Book consultation</h1>
+        <p>Request a private consultation with the Aster Clinic team.</p>
+      </section>
+    <section class="booking-layout">
+      <form class="booking-form">
+        <label><span>Name</span><input name="name" autocomplete="name" required></label>
+        <label><span>Phone</span><input name="phone" autocomplete="tel" required></label>
+        <label><span>Interest</span><select name="interest"><option>Facial surgery consultation</option><option>Skin health</option><option>Injectables</option><option>Not sure yet</option></select></label>
+        <label><span>Preferred day</span><select name="day"><option>Sunday</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option></select></label>
+        <label class="full"><span>Message</span><textarea name="message" rows="5" placeholder="Tell us what you would like to discuss."></textarea></label>
+        <button class="button full" type="submit">Request consultation</button>
+        <p class="form-note" hidden>Thank you. The clinic will contact you to confirm the appointment.</p>
+      </form>
+      <img src="/samples/clinic/media/interior.jpg" alt="Aster Clinic private reception">
+    </section>
+  </main>
   <footer class="footer">
-    <div class="footer-inner">
-      <div>
-        <a class="brand footer-brand" href="/samples/clinic/index.html"><span class="brand-mark">A</span><span><strong>Aster</strong><small>Private aesthetic clinic</small></span></a>
-        <p>Consultation-led aesthetic surgery, skin health, and follow-up care in Abdoun.</p>
-      </div>
-      <div><h2>Visit</h2><p>Abdoun, Amman<br>Sun-Thu, 9 AM-6 PM</p></div>
-      <div><h2>Contact</h2><a href="tel:+96265550184">+962 6 555 0184</a><a href="mailto:hello@asterclinic.jo">hello@asterclinic.jo</a></div>
-      <div><h2>Patients</h2><a href="/samples/clinic/patient-info/index.html">Preparation</a><a href="/samples/clinic/case-study/index.html">Clinical standards</a></div>
+    <div>
+      <a class="brand footer-brand" href="/samples/clinic/index.html">
+        <span>Aster</span>
+        <small>Private aesthetic clinic</small>
+      </a>
+      <p>Quiet, doctor-led aesthetic care with clear information, consistent follow-up, and responsible result presentation.</p>
+    </div>
+    <nav aria-label="Footer navigation">
+      <a href="/samples/clinic/services/index.html">Treatments</a>
+      <a href="/samples/clinic/portfolio/index.html">Results</a>
+      <a href="/samples/clinic/doctors/index.html">Doctors</a>
+      <a href="/samples/clinic/contact/index.html">Contact</a>
+    </nav>
+    <div>
+      <span>Abdoun, Amman</span>
+      <span>Sun - Thu, 9:00 - 18:00</span>
+      <span>+962 79 850 9111</span>
     </div>
   </footer>
   <div class="mobile-cta">
-    <a class="button button-soft" href="tel:+96265550184">Call</a>
+    <a class="button ghost" href="tel:+962798509111">Call</a>
     <a class="button" href="/samples/clinic/book/index.html">Book</a>
   </div>
 </body>
