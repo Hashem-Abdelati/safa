@@ -6,38 +6,124 @@ const target = path.join(workspace, "public", "samples", "clinic");
 const assetSource = path.join(workspace, "public", "sample-assets", "clinic");
 
 const routes = [
-  ["index", "Home"],
-  ["services", "Treatments"],
-  ["portfolio", "Results"],
-  ["doctors", "Doctors"],
-  ["patient-info", "Patient Info"],
-  ["contact", "Contact"],
+  ["index", "Home", "الرئيسية"],
+  ["services", "Treatments", "العلاجات"],
+  ["portfolio", "Results", "النتائج"],
+  ["doctors", "Doctors", "الأطباء"],
+  ["patient-info", "Patient Info", "إرشادات المرضى"],
+  ["contact", "Contact", "التواصل"],
 ];
 
 const treatments = [
   {
     title: "Facial surgery",
+    titleAr: "جراحة الوجه",
     text: "Consultation-led planning for rhinoplasty, eyelid surgery, neck refinement, and facial balance.",
+    textAr: "تخطيط يبدأ بالاستشارة لعمليات الأنف، الجفون، تحسين الرقبة، وتوازن ملامح الوجه.",
   },
   {
     title: "Skin health",
+    titleAr: "صحة البشرة",
     text: "Laser, pigmentation, texture, acne scarring, and medical-grade maintenance programs.",
+    textAr: "برامج الليزر، التصبغات، ملمس البشرة، آثار حب الشباب، والعناية الطبية المستمرة.",
   },
   {
     title: "Injectables",
+    titleAr: "الحقن التجميلية",
     text: "Subtle toxin and filler treatment planned around proportion, movement, and long-term restraint.",
+    textAr: "علاجات دقيقة بالبوتوكس والفيلر مبنية على التناسق والحركة والنتائج الطبيعية.",
   },
   {
     title: "Recovery care",
+    titleAr: "رعاية التعافي",
     text: "Follow-up appointments, scar care, swelling review, and skin support after treatment.",
+    textAr: "متابعة بعد العلاج، عناية بالندبات، مراجعة التورم، ودعم البشرة خلال التعافي.",
   },
 ];
 
 const doctors = [
-  ["Dr. Leila Haddad", "Consultant aesthetic surgeon", "Facial surgery, revision consultation, recovery planning"],
-  ["Dr. Omar Nasser", "Dermatologist", "Laser, pigmentation, acne scarring, medical skin health"],
-  ["Rania Saleh", "Nurse practitioner", "Injectables support, preparation, post-treatment care"],
+  {
+    name: "Dr. Leila Haddad",
+    nameAr: "د. ليلى حداد",
+    role: "Consultant aesthetic surgeon",
+    roleAr: "استشارية جراحة تجميلية",
+    focus: "Facial surgery, revision consultation, recovery planning",
+    focusAr: "جراحة الوجه، الاستشارات التصحيحية، وخطط التعافي",
+    image: "doctor-leila.jpg",
+  },
+  {
+    name: "Dr. Omar Nasser",
+    nameAr: "د. عمر ناصر",
+    role: "Dermatologist",
+    roleAr: "اختصاصي جلدية",
+    focus: "Laser, pigmentation, acne scarring, medical skin health",
+    focusAr: "الليزر، التصبغات، آثار حب الشباب، وصحة البشرة الطبية",
+    image: "doctor-omar.jpg",
+  },
+  {
+    name: "Rania Saleh",
+    nameAr: "رانيا صالح",
+    role: "Nurse practitioner",
+    roleAr: "ممرضة ممارِسة",
+    focus: "Injectables support, preparation, post-treatment care",
+    focusAr: "دعم الحقن، التحضير، ورعاية ما بعد العلاج",
+    image: "doctor-rania.jpg",
+  },
 ];
+
+const resultCases = [
+  {
+    number: "01",
+    title: "Facial balance and skin quality",
+    titleAr: "توازن الوجه وجودة البشرة",
+    text: "Same patient, same angle, same lighting, with a subtle result that feels medically credible.",
+    textAr: "نفس المريضة، نفس الزاوية، نفس الإضاءة، ونتيجة هادئة تبدو واقعية طبياً.",
+    focus: "Skin texture, facial balance, recovery care",
+    focusAr: "ملمس البشرة، توازن الوجه، ورعاية التعافي",
+    timing: "Final review after healing interval",
+    timingAr: "مراجعة نهائية بعد فترة التعافي",
+    image: "result-face.jpg",
+    alt: "Matched before and after facial aesthetic result",
+  },
+  {
+    number: "02",
+    title: "Smile refinement",
+    titleAr: "تحسين الابتسامة",
+    text: "A natural dental aesthetic example with believable whitening and alignment rather than an artificial veneer look.",
+    textAr: "مثال تجميلي للأسنان بنتيجة طبيعية في اللون والتناسق، من دون مظهر صناعي.",
+    focus: "Whitening, proportion, natural smile line",
+    focusAr: "تبييض، تناسق، وخط ابتسامة طبيعي",
+    timing: "Review after shade stabilization",
+    timingAr: "مراجعة بعد ثبات درجة اللون",
+    image: "result-teeth.jpg",
+    alt: "Matched before and after dental smile result",
+  },
+  {
+    number: "03",
+    title: "Skin texture and redness",
+    titleAr: "ملمس البشرة والاحمرار",
+    text: "A dermatology-led result focused on calmer redness and refined texture while preserving natural skin.",
+    textAr: "نتيجة جلدية تركز على تهدئة الاحمرار وتحسين الملمس مع الحفاظ على طبيعية البشرة.",
+    focus: "Acne scarring, redness, texture",
+    focusAr: "آثار حب الشباب، الاحمرار، وملمس البشرة",
+    timing: "Series review after treatment plan",
+    timingAr: "مراجعة بعد سلسلة علاجية",
+    image: "result-skin.jpg",
+    alt: "Matched before and after skin texture result",
+  },
+];
+
+function attr(value) {
+  return String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+}
+
+function tx(en, ar) {
+  return `data-en="${attr(en)}" data-ar="${attr(ar)}"`;
+}
+
+function span(en, ar) {
+  return `<span ${tx(en, ar)}>${en}</span>`;
+}
 
 function ensureDir(dir) {
   mkdirSync(dir, { recursive: true });
@@ -49,18 +135,18 @@ function routeHref(route) {
 
 function nav(active) {
   return routes
-    .map(([route, label]) => `<a${route === active ? ' class="active"' : ""} href="${routeHref(route)}">${label}</a>`)
+    .map(([route, label, labelAr]) => `<a${route === active ? ' class="active"' : ""} href="${routeHref(route)}" ${tx(label, labelAr)}>${label}</a>`)
     .join("");
 }
 
-function page({ route, title, description, body, lead = true }) {
+function page({ route, title, titleAr, description, descriptionAr, body, lead = true }) {
   const routeDir = route === "index" ? target : path.join(target, route);
   ensureDir(routeDir);
   const leadMarkup = lead
     ? `<section class="page-lead">
-        <p class="kicker">Aster Clinic</p>
-        <h1>${title}</h1>
-        <p>${description}</p>
+        <p class="kicker" ${tx("Aster Clinic", "عيادة أستر")}>Aster Clinic</p>
+        <h1 ${tx(title, titleAr)}>${title}</h1>
+        <p ${tx(description, descriptionAr)}>${description}</p>
       </section>`
     : "";
 
@@ -82,17 +168,19 @@ function page({ route, title, description, body, lead = true }) {
   <header class="site-header">
     <a class="brand" href="/samples/clinic/index.html" aria-label="Aster Clinic home">
       <span>Aster</span>
-      <small>Private aesthetic clinic</small>
+      <small ${tx("Private aesthetic clinic", "عيادة تجميل خاصة")}>Private aesthetic clinic</small>
     </a>
     <nav class="desktop-nav" aria-label="Primary navigation">${nav(route)}</nav>
     <div class="header-actions">
-      <a class="book-link" href="/samples/clinic/book/index.html">Book</a>
+      <button class="language-toggle" type="button" aria-label="Switch language" data-language-toggle>عربي</button>
+      <a class="book-link" href="/samples/clinic/book/index.html" ${tx("Book", "احجز")}>Book</a>
       <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
     </div>
   </header>
   <nav class="mobile-nav" aria-label="Mobile navigation">
     ${nav(route)}
-    <a class="button" href="/samples/clinic/book/index.html">Book consultation</a>
+    <button class="language-toggle mobile-language" type="button" aria-label="Switch language" data-language-toggle>عربي</button>
+    <a class="button" href="/samples/clinic/book/index.html" ${tx("Book consultation", "احجز استشارة")}>Book consultation</a>
   </nav>
   <main id="main">
     ${leadMarkup}
@@ -100,8 +188,8 @@ function page({ route, title, description, body, lead = true }) {
   </main>
   ${footer()}
   <div class="mobile-cta">
-    <a class="button ghost" href="tel:+962798509111">Call</a>
-    <a class="button" href="/samples/clinic/book/index.html">Book</a>
+    <a class="button ghost" href="tel:+962798509111" ${tx("Call", "اتصل")}>Call</a>
+    <a class="button" href="/samples/clinic/book/index.html" ${tx("Book", "احجز")}>Book</a>
   </div>
 </body>
 </html>`,
@@ -113,19 +201,19 @@ function footer() {
     <div>
       <a class="brand footer-brand" href="/samples/clinic/index.html">
         <span>Aster</span>
-        <small>Private aesthetic clinic</small>
+        <small ${tx("Private aesthetic clinic", "عيادة تجميل خاصة")}>Private aesthetic clinic</small>
       </a>
-      <p>Quiet, doctor-led aesthetic care with clear information, consistent follow-up, and responsible result presentation.</p>
+      <p ${tx("Quiet, doctor-led aesthetic care with clear information, consistent follow-up, and responsible result presentation.", "رعاية تجميلية هادئة يقودها الأطباء، بمعلومات واضحة، متابعة مستمرة، وعرض مسؤول للنتائج.")}>Quiet, doctor-led aesthetic care with clear information, consistent follow-up, and responsible result presentation.</p>
     </div>
     <nav aria-label="Footer navigation">
-      <a href="/samples/clinic/services/index.html">Treatments</a>
-      <a href="/samples/clinic/portfolio/index.html">Results</a>
-      <a href="/samples/clinic/doctors/index.html">Doctors</a>
-      <a href="/samples/clinic/contact/index.html">Contact</a>
+      <a href="/samples/clinic/services/index.html" ${tx("Treatments", "العلاجات")}>Treatments</a>
+      <a href="/samples/clinic/portfolio/index.html" ${tx("Results", "النتائج")}>Results</a>
+      <a href="/samples/clinic/doctors/index.html" ${tx("Doctors", "الأطباء")}>Doctors</a>
+      <a href="/samples/clinic/contact/index.html" ${tx("Contact", "التواصل")}>Contact</a>
     </nav>
     <div>
-      <span>Abdoun, Amman</span>
-      <span>Sun - Thu, 9:00 - 18:00</span>
+      <span ${tx("Abdoun, Amman", "عبدون، عمّان")}>Abdoun, Amman</span>
+      <span ${tx("Sun - Thu, 9:00 - 18:00", "الأحد - الخميس، 9:00 - 18:00")}>Sun - Thu, 9:00 - 18:00</span>
       <span>+962 79 850 9111</span>
     </div>
   </footer>`;
@@ -134,19 +222,52 @@ function footer() {
 const treatmentCards = treatments
   .map(
     (item) => `<article class="quiet-card">
-      <h3>${item.title}</h3>
-      <p>${item.text}</p>
-      <a href="/samples/clinic/book/index.html">Discuss treatment</a>
+      <h3 ${tx(item.title, item.titleAr)}>${item.title}</h3>
+      <p ${tx(item.text, item.textAr)}>${item.text}</p>
+      <a href="/samples/clinic/book/index.html" ${tx("Discuss treatment", "ناقش العلاج")}>Discuss treatment</a>
     </article>`,
   )
   .join("");
 
 const doctorCards = doctors
   .map(
-    ([name, role, focus]) => `<article class="quiet-card doctor-item">
-      <h3>${name}</h3>
-      <p>${role}</p>
-      <span>${focus}</span>
+    (doctor) => `<article class="doctor-card">
+      <img src="/samples/clinic/media/${doctor.image}" alt="${doctor.name}">
+      <div>
+        <h3 ${tx(doctor.name, doctor.nameAr)}>${doctor.name}</h3>
+        <p ${tx(doctor.role, doctor.roleAr)}>${doctor.role}</p>
+        <span ${tx(doctor.focus, doctor.focusAr)}>${doctor.focus}</span>
+      </div>
+    </article>`,
+  )
+  .join("");
+
+const resultPreviewCards = resultCases
+  .map(
+    (item) => `<article class="result-tile">
+      <img src="/samples/clinic/media/${item.image}" alt="${item.alt}">
+      <div>
+        <p class="kicker">${span(`Case ${item.number}`, `الحالة ${item.number}`)}</p>
+        <h3 ${tx(item.title, item.titleAr)}>${item.title}</h3>
+      </div>
+    </article>`,
+  )
+  .join("");
+
+const resultCaseSections = resultCases
+  .map(
+    (item) => `<article class="result-case">
+      <img src="/samples/clinic/media/${item.image}" alt="${item.alt}">
+      <div>
+        <p class="kicker">${span(`Case ${item.number}`, `الحالة ${item.number}`)}</p>
+        <h2 ${tx(item.title, item.titleAr)}>${item.title}</h2>
+        <p ${tx(item.text, item.textAr)}>${item.text}</p>
+        <dl class="case-notes">
+          <div><dt ${tx("Focus", "التركيز")}>Focus</dt><dd ${tx(item.focus, item.focusAr)}>${item.focus}</dd></div>
+          <div><dt ${tx("Timing", "التوقيت")}>Timing</dt><dd ${tx(item.timing, item.timingAr)}>${item.timing}</dd></div>
+          <div><dt ${tx("Standard", "المعيار")}>Standard</dt><dd ${tx("Consent-led photography, consistent documentation", "تصوير بموافقة واضحة وتوثيق متسق")}>Consent-led photography, consistent documentation</dd></div>
+        </dl>
+      </div>
     </article>`,
   )
   .join("");
@@ -155,16 +276,18 @@ function home() {
   page({
     route: "index",
     title: "Aster Clinic",
+    titleAr: "عيادة أستر",
     description: "Doctor-led aesthetic care in a calm private clinic.",
+    descriptionAr: "رعاية تجميلية يقودها الأطباء داخل عيادة خاصة وهادئة.",
     lead: false,
     body: `<section class="hero">
       <div class="hero-copy">
-        <p class="kicker">Private aesthetic clinic - Amman</p>
-        <h1>Calm, considered aesthetic care.</h1>
-        <p>Aster Clinic brings consultation, skin health, facial aesthetics, and follow-up care into one quiet clinical setting.</p>
+        <p class="kicker" ${tx("Private aesthetic clinic - Amman", "عيادة تجميل خاصة - عمّان")}>Private aesthetic clinic - Amman</p>
+        <h1 ${tx("Calm, considered aesthetic care.", "رعاية تجميلية هادئة ومدروسة.")}>Calm, considered aesthetic care.</h1>
+        <p ${tx("Aster Clinic brings consultation, skin health, facial aesthetics, and follow-up care into one quiet clinical setting.", "تجمع عيادة أستر بين الاستشارة، صحة البشرة، تجميل الوجه، والمتابعة ضمن بيئة سريرية هادئة.")}>Aster Clinic brings consultation, skin health, facial aesthetics, and follow-up care into one quiet clinical setting.</p>
         <div class="button-row">
-          <a class="button" href="/samples/clinic/book/index.html">Book consultation</a>
-          <a class="button ghost" href="/samples/clinic/portfolio/index.html">View results</a>
+          <a class="button" href="/samples/clinic/book/index.html" ${tx("Book consultation", "احجز استشارة")}>Book consultation</a>
+          <a class="button ghost" href="/samples/clinic/portfolio/index.html" ${tx("View results", "شاهد النتائج")}>View results</a>
         </div>
       </div>
       <figure class="hero-image">
@@ -173,40 +296,40 @@ function home() {
     </section>
 
     <section class="trust-strip" aria-label="Clinic values">
-      <div><strong>Doctor-led</strong><span>Every treatment begins with assessment and suitability.</span></div>
-      <div><strong>Measured</strong><span>Information is clear, realistic, and easy to act on.</span></div>
-      <div><strong>Private</strong><span>Photography, results, and follow-up are handled carefully.</span></div>
+      <div><strong ${tx("Doctor-led", "بقيادة الأطباء")}>Doctor-led</strong><span ${tx("Every treatment begins with assessment and suitability.", "كل علاج يبدأ بتقييم الملاءمة قبل التوصية.")}>Every treatment begins with assessment and suitability.</span></div>
+      <div><strong ${tx("Measured", "مدروس")}>Measured</strong><span ${tx("Information is clear, realistic, and easy to act on.", "المعلومات واضحة وواقعية وسهلة المتابعة.")}>Information is clear, realistic, and easy to act on.</span></div>
+      <div><strong ${tx("Private", "خصوصية")}>Private</strong><span ${tx("Photography, results, and follow-up are handled carefully.", "يتم التعامل مع التصوير والنتائج والمتابعة بعناية.")}>Photography, results, and follow-up are handled carefully.</span></div>
     </section>
 
     <section class="image-text">
       <img src="/samples/clinic/media/team.jpg" alt="Aster Clinic medical team">
       <div>
-        <p class="kicker">Clinical team</p>
-        <h2>A clinical team, not a rushed treatment menu.</h2>
-        <p>Patients are guided through what matters: who is treating them, what the treatment involves, what recovery can look like, and whether a procedure is suitable at all.</p>
-        <a class="text-link" href="/samples/clinic/doctors/index.html">Meet the team</a>
+        <p class="kicker" ${tx("Clinical team", "الفريق الطبي")}>Clinical team</p>
+        <h2 ${tx("A clinical team, not a rushed treatment menu.", "فريق طبي، وليس قائمة علاجات مستعجلة.")}>A clinical team, not a rushed treatment menu.</h2>
+        <p ${tx("Patients are guided through what matters: who is treating them, what the treatment involves, what recovery can look like, and whether a procedure is suitable at all.", "يتم توجيه المرضى بوضوح: من سيعالجهم، ماذا يتضمن العلاج، كيف يبدو التعافي، وهل الإجراء مناسب أصلاً.")}>Patients are guided through what matters: who is treating them, what the treatment involves, what recovery can look like, and whether a procedure is suitable at all.</p>
+        <a class="text-link" href="/samples/clinic/doctors/index.html" ${tx("Meet the team", "تعرف على الفريق")}>Meet the team</a>
       </div>
     </section>
 
     <section class="section">
       <div class="section-top">
         <div>
-          <p class="kicker">Treatments</p>
-          <h2>Clear paths of care.</h2>
+          <p class="kicker" ${tx("Treatments", "العلاجات")}>Treatments</p>
+          <h2 ${tx("Clear paths of care.", "مسارات رعاية واضحة.")}>Clear paths of care.</h2>
         </div>
-        <a class="text-link" href="/samples/clinic/services/index.html">All treatments</a>
+        <a class="text-link" href="/samples/clinic/services/index.html" ${tx("All treatments", "كل العلاجات")}>All treatments</a>
       </div>
       <div class="card-grid">${treatmentCards}</div>
     </section>
 
     <section class="result-feature">
       <div>
-        <p class="kicker">Results</p>
-        <h2>Matched photography. Realistic expectations.</h2>
-        <p>Results are shown with consistent angle, lighting, and timing so patients can understand outcomes responsibly.</p>
-        <a class="text-link" href="/samples/clinic/portfolio/index.html">View result approach</a>
+        <p class="kicker" ${tx("Results", "النتائج")}>Results</p>
+        <h2 ${tx("Matched photography. Realistic expectations.", "تصوير متطابق. توقعات واقعية.")}>Matched photography. Realistic expectations.</h2>
+        <p ${tx("Results are shown with consistent angle, lighting, and timing so patients can understand outcomes responsibly.", "تُعرض النتائج بزوايا وإضاءة وتوقيت متسق حتى يفهم المرضى النتائج بمسؤولية.")}>Results are shown with consistent angle, lighting, and timing so patients can understand outcomes responsibly.</p>
+        <a class="text-link" href="/samples/clinic/portfolio/index.html" ${tx("View result approach", "شاهد طريقة عرض النتائج")}>View result approach</a>
       </div>
-      <img src="/samples/clinic/media/result-face.jpg" alt="Matched before and after aesthetic clinic result">
+      <div class="result-preview-grid">${resultPreviewCards}</div>
     </section>
     ${consultCta()}`,
   });
@@ -214,9 +337,9 @@ function home() {
 
 function consultCta() {
   return `<section class="consult-cta">
-    <p class="kicker">Consultation</p>
-    <h2>Start with a private assessment.</h2>
-    <a class="button light" href="/samples/clinic/book/index.html">Book consultation</a>
+    <p class="kicker" ${tx("Consultation", "الاستشارة")}>Consultation</p>
+    <h2 ${tx("Start with a private assessment.", "ابدأ بتقييم خاص.")}>Start with a private assessment.</h2>
+    <a class="button light" href="/samples/clinic/book/index.html" ${tx("Book consultation", "احجز استشارة")}>Book consultation</a>
   </section>`;
 }
 
@@ -224,20 +347,22 @@ function services() {
   page({
     route: "services",
     title: "Treatments",
+    titleAr: "العلاجات",
     description: "Clear medical information, suitability, recovery notes, and consultation paths.",
+    descriptionAr: "معلومات طبية واضحة عن الملاءمة، التعافي، ومسار الاستشارة.",
     body: `<section class="section tight">
       <div class="card-grid two">${treatmentCards}</div>
     </section>
     <section class="image-text reverse">
       <img src="/samples/clinic/media/interior.jpg" alt="Private clinic treatment corridor">
       <div>
-        <p class="kicker">How care is planned</p>
-        <h2>No pressure. No menu of promises.</h2>
-        <p>Each treatment page is written to explain suitability, preparation, downtime, alternatives, and when a doctor should advise against treatment.</p>
+        <p class="kicker" ${tx("How care is planned", "كيف تُخطط الرعاية")}>How care is planned</p>
+        <h2 ${tx("No pressure. No menu of promises.", "من دون ضغط. ومن دون وعود جاهزة.")}>No pressure. No menu of promises.</h2>
+        <p ${tx("Each treatment page is written to explain suitability, preparation, downtime, alternatives, and when a doctor should advise against treatment.", "كل صفحة علاج تشرح الملاءمة، التحضير، فترة التعافي، البدائل، ومتى قد ينصح الطبيب بعدم إجراء العلاج.")}>Each treatment page is written to explain suitability, preparation, downtime, alternatives, and when a doctor should advise against treatment.</p>
         <ul class="check-list">
-          <li>Consultation before recommendation</li>
-          <li>Evidence-based patient information</li>
-          <li>Aftercare and follow-up built into the path</li>
+          <li ${tx("Consultation before recommendation", "استشارة قبل أي توصية")}>Consultation before recommendation</li>
+          <li ${tx("Evidence-based patient information", "معلومات مبنية على الأدلة")}>Evidence-based patient information</li>
+          <li ${tx("Aftercare and follow-up built into the path", "رعاية لاحقة ومتابعة ضمن المسار")}>Aftercare and follow-up built into the path</li>
         </ul>
       </div>
     </section>
@@ -249,25 +374,15 @@ function portfolio() {
   page({
     route: "portfolio",
     title: "Results",
+    titleAr: "النتائج",
     description: "A responsible result library with matched photography and clear clinical notes.",
-    body: `<section class="result-case">
-      <img src="/samples/clinic/media/result-face.jpg" alt="Matched before and after facial aesthetic result">
-      <div>
-        <p class="kicker">Case 01</p>
-        <h2>Facial balance and skin quality</h2>
-        <p>Shown as one matched case rather than unrelated images. Same patient, same angle, same lighting, and a subtle result that feels medically credible.</p>
-        <dl class="case-notes">
-          <div><dt>Focus</dt><dd>Skin texture, facial balance, recovery care</dd></div>
-          <div><dt>Timing</dt><dd>Final review after healing interval</dd></div>
-          <div><dt>Standard</dt><dd>Consent-led photography, consistent documentation</dd></div>
-        </dl>
-      </div>
-    </section>
+    descriptionAr: "معرض نتائج مسؤول بتصوير متطابق وملاحظات سريرية واضحة.",
+    body: `${resultCaseSections}
     <section class="section tight">
       <div class="card-grid three">
-        <article class="quiet-card"><h3>Consent</h3><p>Images are used only with documented permission and clear treatment context.</p></article>
-        <article class="quiet-card"><h3>Consistency</h3><p>Angles, lighting, makeup, and timing are controlled to avoid misleading results.</p></article>
-        <article class="quiet-card"><h3>Expectation</h3><p>Every result is individual. Consultation explains what is realistic and safe.</p></article>
+        <article class="quiet-card"><h3 ${tx("Consent", "الموافقة")}>Consent</h3><p ${tx("Images are used only with documented permission and clear treatment context.", "تُستخدم الصور فقط بموافقة موثقة وسياق علاجي واضح.")}>Images are used only with documented permission and clear treatment context.</p></article>
+        <article class="quiet-card"><h3 ${tx("Consistency", "الاتساق")}>Consistency</h3><p ${tx("Angles, lighting, makeup, and timing are controlled to avoid misleading results.", "تُضبط الزوايا والإضاءة والتوقيت لتجنب أي عرض مضلل.")}>Angles, lighting, makeup, and timing are controlled to avoid misleading results.</p></article>
+        <article class="quiet-card"><h3 ${tx("Expectation", "التوقع")}>Expectation</h3><p ${tx("Every result is individual. Consultation explains what is realistic and safe.", "كل نتيجة فردية. الاستشارة توضح ما هو واقعي وآمن.")}>Every result is individual. Consultation explains what is realistic and safe.</p></article>
       </div>
     </section>
     ${consultCta()}`,
@@ -278,17 +393,19 @@ function doctorsPage() {
   page({
     route: "doctors",
     title: "Doctors",
+    titleAr: "الأطباء",
     description: "A small clinical team with clear roles and a restrained, patient-first approach.",
+    descriptionAr: "فريق طبي صغير بأدوار واضحة ونهج هادئ يضع المريض أولاً.",
     body: `<section class="image-text">
       <img src="/samples/clinic/media/team.jpg" alt="Aster Clinic doctors and nurse practitioner">
       <div>
-        <p class="kicker">Team</p>
-        <h2>The person you meet matters as much as the treatment.</h2>
-        <p>Profiles explain clinical focus, patient approach, and when each practitioner is involved in care.</p>
+        <p class="kicker" ${tx("Team", "الفريق")}>Team</p>
+        <h2 ${tx("The person you meet matters as much as the treatment.", "الشخص الذي تلتقيه مهم بقدر العلاج نفسه.")}>The person you meet matters as much as the treatment.</h2>
+        <p ${tx("Profiles explain clinical focus, patient approach, and when each practitioner is involved in care.", "توضح الملفات التخصص، أسلوب التعامل مع المريض، ومتى يشارك كل مختص في الرعاية.")}>Profiles explain clinical focus, patient approach, and when each practitioner is involved in care.</p>
       </div>
     </section>
     <section class="section tight">
-      <div class="card-grid three">${doctorCards}</div>
+      <div class="doctor-grid">${doctorCards}</div>
     </section>`,
   });
 }
@@ -297,13 +414,15 @@ function patientInfo() {
   page({
     route: "patient-info",
     title: "Patient information",
+    titleAr: "إرشادات المرضى",
     description: "Plain preparation, recovery, safety, and follow-up guidance.",
+    descriptionAr: "إرشادات واضحة للتحضير، التعافي، السلامة، والمتابعة.",
     body: `<section class="section tight">
       <div class="card-grid two">
-        <article class="quiet-card"><h3>Before consultation</h3><p>Bring your history, current medication, previous procedures, allergies, and goals. The first appointment is for assessment, not pressure.</p></article>
-        <article class="quiet-card"><h3>Before treatment</h3><p>Preparation notes are specific to treatment type and may include medication guidance, skincare pauses, and recovery planning.</p></article>
-        <article class="quiet-card"><h3>After treatment</h3><p>Patients receive written aftercare, expected recovery signs, and clear instructions for urgent concerns.</p></article>
-        <article class="quiet-card"><h3>Follow-up</h3><p>Review appointments document healing, answer questions, and decide whether refinement is appropriate.</p></article>
+        <article class="quiet-card"><h3 ${tx("Before consultation", "قبل الاستشارة")}>Before consultation</h3><p ${tx("Bring your history, current medication, previous procedures, allergies, and goals. The first appointment is for assessment, not pressure.", "أحضر تاريخك الطبي، أدويتك الحالية، الإجراءات السابقة، الحساسية، وأهدافك. الموعد الأول للتقييم وليس للضغط.")}>Bring your history, current medication, previous procedures, allergies, and goals. The first appointment is for assessment, not pressure.</p></article>
+        <article class="quiet-card"><h3 ${tx("Before treatment", "قبل العلاج")}>Before treatment</h3><p ${tx("Preparation notes are specific to treatment type and may include medication guidance, skincare pauses, and recovery planning.", "تعليمات التحضير تختلف حسب العلاج وقد تشمل إرشادات للأدوية، إيقاف بعض منتجات البشرة، وخطة للتعافي.")}>Preparation notes are specific to treatment type and may include medication guidance, skincare pauses, and recovery planning.</p></article>
+        <article class="quiet-card"><h3 ${tx("After treatment", "بعد العلاج")}>After treatment</h3><p ${tx("Patients receive written aftercare, expected recovery signs, and clear instructions for urgent concerns.", "يحصل المرضى على تعليمات مكتوبة للرعاية اللاحقة، علامات التعافي المتوقعة، وإرشادات واضحة عند وجود أي قلق عاجل.")}>Patients receive written aftercare, expected recovery signs, and clear instructions for urgent concerns.</p></article>
+        <article class="quiet-card"><h3 ${tx("Follow-up", "المتابعة")}>Follow-up</h3><p ${tx("Review appointments document healing, answer questions, and decide whether refinement is appropriate.", "توثق مواعيد المراجعة التعافي، تجيب على الأسئلة، وتحدد ما إذا كان أي تحسين إضافي مناسباً.")}>Review appointments document healing, answer questions, and decide whether refinement is appropriate.</p></article>
       </div>
     </section>`,
   });
@@ -313,17 +432,19 @@ function contact() {
   page({
     route: "contact",
     title: "Contact",
+    titleAr: "التواصل",
     description: "Speak with the clinic or book a private consultation.",
+    descriptionAr: "تواصل مع العيادة أو احجز استشارة خاصة.",
     body: `<section class="contact-panel">
       <div>
-        <p class="kicker">Aster Clinic</p>
-        <h2>Abdoun, Amman</h2>
-        <p>Sunday to Thursday, 9:00 - 18:00</p>
+        <p class="kicker" ${tx("Aster Clinic", "عيادة أستر")}>Aster Clinic</p>
+        <h2 ${tx("Abdoun, Amman", "عبدون، عمّان")}>Abdoun, Amman</h2>
+        <p ${tx("Sunday to Thursday, 9:00 - 18:00", "الأحد إلى الخميس، 9:00 - 18:00")}>Sunday to Thursday, 9:00 - 18:00</p>
       </div>
       <div class="contact-links">
         <a href="tel:+962798509111">+962 79 850 9111</a>
         <a href="mailto:care@asterclinic.com">care@asterclinic.com</a>
-        <a class="button" href="/samples/clinic/book/index.html">Book consultation</a>
+        <a class="button" href="/samples/clinic/book/index.html" ${tx("Book consultation", "احجز استشارة")}>Book consultation</a>
       </div>
     </section>`,
   });
@@ -333,16 +454,18 @@ function book() {
   page({
     route: "book",
     title: "Book consultation",
+    titleAr: "احجز استشارة",
     description: "Request a private consultation with the Aster Clinic team.",
+    descriptionAr: "اطلب استشارة خاصة مع فريق عيادة أستر.",
     body: `<section class="booking-layout">
       <form class="booking-form">
-        <label><span>Name</span><input name="name" autocomplete="name" required></label>
-        <label><span>Phone</span><input name="phone" autocomplete="tel" required></label>
-        <label><span>Interest</span><select name="interest"><option>Facial surgery consultation</option><option>Skin health</option><option>Injectables</option><option>Not sure yet</option></select></label>
-        <label><span>Preferred day</span><select name="day"><option>Sunday</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option></select></label>
-        <label class="full"><span>Message</span><textarea name="message" rows="5" placeholder="Tell us what you would like to discuss."></textarea></label>
-        <button class="button full" type="submit">Request consultation</button>
-        <p class="form-note" hidden>Thank you. The clinic will contact you to confirm the appointment.</p>
+        <label><span ${tx("Name", "الاسم")}>Name</span><input name="name" autocomplete="name" required></label>
+        <label><span ${tx("Phone", "الهاتف")}>Phone</span><input name="phone" autocomplete="tel" required></label>
+        <label><span ${tx("Interest", "الاهتمام")}>Interest</span><select name="interest"><option ${tx("Facial surgery consultation", "استشارة جراحة الوجه")}>Facial surgery consultation</option><option ${tx("Skin health", "صحة البشرة")}>Skin health</option><option ${tx("Injectables", "الحقن التجميلية")}>Injectables</option><option ${tx("Not sure yet", "لست متأكداً بعد")}>Not sure yet</option></select></label>
+        <label><span ${tx("Preferred day", "اليوم المفضل")}>Preferred day</span><select name="day"><option ${tx("Sunday", "الأحد")}>Sunday</option><option ${tx("Monday", "الاثنين")}>Monday</option><option ${tx("Tuesday", "الثلاثاء")}>Tuesday</option><option ${tx("Wednesday", "الأربعاء")}>Wednesday</option><option ${tx("Thursday", "الخميس")}>Thursday</option></select></label>
+        <label class="full"><span ${tx("Message", "الرسالة")}>Message</span><textarea name="message" rows="5" data-placeholder-en="Tell us what you would like to discuss." data-placeholder-ar="اكتب ما ترغب في مناقشته." placeholder="Tell us what you would like to discuss."></textarea></label>
+        <button class="button full" type="submit" ${tx("Request consultation", "اطلب الاستشارة")}>Request consultation</button>
+        <p class="form-note" hidden ${tx("Thank you. The clinic will contact you to confirm the appointment.", "شكراً لك. ستتواصل العيادة معك لتأكيد الموعد.")}>Thank you. The clinic will contact you to confirm the appointment.</p>
       </form>
       <img src="/samples/clinic/media/interior.jpg" alt="Aster Clinic private reception">
     </section>`,
@@ -353,13 +476,15 @@ function about() {
   page({
     route: "about",
     title: "About Aster",
+    titleAr: "عن أستر",
     description: "A quiet private clinic built around clarity, privacy, and measured care.",
+    descriptionAr: "عيادة خاصة هادئة مبنية على الوضوح والخصوصية والرعاية المدروسة.",
     body: `<section class="image-text">
       <img src="/samples/clinic/media/interior.jpg" alt="Aster Clinic interior">
       <div>
-        <p class="kicker">Definition</p>
-        <h2>Care that feels clear before it feels cosmetic.</h2>
-        <p>Aster Clinic is designed for patients who want careful information, subtle outcomes, and a clinical team that explains the full path before treatment begins.</p>
+        <p class="kicker" ${tx("Definition", "التعريف")}>Definition</p>
+        <h2 ${tx("Care that feels clear before it feels cosmetic.", "رعاية تبدو واضحة قبل أن تبدو تجميلية.")}>Care that feels clear before it feels cosmetic.</h2>
+        <p ${tx("Aster Clinic is designed for patients who want careful information, subtle outcomes, and a clinical team that explains the full path before treatment begins.", "صُممت عيادة أستر للمرضى الذين يريدون معلومات دقيقة، نتائج هادئة، وفريقاً طبياً يشرح المسار كاملاً قبل بدء العلاج.")}>Aster Clinic is designed for patients who want careful information, subtle outcomes, and a clinical team that explains the full path before treatment begins.</p>
       </div>
     </section>`,
   });
@@ -369,19 +494,21 @@ function standards() {
   page({
     route: "case-study",
     title: "Clinical standards",
+    titleAr: "المعايير السريرية",
     description: "How Aster presents information, photography, consent, and follow-up.",
+    descriptionAr: "كيف تعرض أستر المعلومات، التصوير، الموافقة، والمتابعة.",
     body: `<section class="section tight">
       <div class="card-grid two">
-        <article class="quiet-card"><h3>Information</h3><p>Treatment information is written plainly, with suitability, risks, recovery, and alternatives kept visible.</p></article>
-        <article class="quiet-card"><h3>Photography</h3><p>Result photography is consent-led and matched for angle, light, timing, and context.</p></article>
-        <article class="quiet-card"><h3>Privacy</h3><p>Patient information and imagery are handled with clear consent and minimal exposure.</p></article>
-        <article class="quiet-card"><h3>Follow-up</h3><p>Care continues after treatment with review appointments and written aftercare.</p></article>
+        <article class="quiet-card"><h3 ${tx("Information", "المعلومات")}>Information</h3><p ${tx("Treatment information is written plainly, with suitability, risks, recovery, and alternatives kept visible.", "تُكتب معلومات العلاج بوضوح مع إبقاء الملاءمة والمخاطر والتعافي والبدائل ظاهرة.")}>Treatment information is written plainly, with suitability, risks, recovery, and alternatives kept visible.</p></article>
+        <article class="quiet-card"><h3 ${tx("Photography", "التصوير")}>Photography</h3><p ${tx("Result photography is consent-led and matched for angle, light, timing, and context.", "تصوير النتائج يتم بموافقة واضحة وبزوايا وإضاءة وتوقيت وسياق متسق.")}>Result photography is consent-led and matched for angle, light, timing, and context.</p></article>
+        <article class="quiet-card"><h3 ${tx("Privacy", "الخصوصية")}>Privacy</h3><p ${tx("Patient information and imagery are handled with clear consent and minimal exposure.", "تُعامل معلومات وصور المرضى بموافقة واضحة وبأقل قدر ممكن من الظهور.")}>Patient information and imagery are handled with clear consent and minimal exposure.</p></article>
+        <article class="quiet-card"><h3 ${tx("Follow-up", "المتابعة")}>Follow-up</h3><p ${tx("Care continues after treatment with review appointments and written aftercare.", "تستمر الرعاية بعد العلاج عبر مواعيد مراجعة وتعليمات مكتوبة.")}>Care continues after treatment with review appointments and written aftercare.</p></article>
       </div>
     </section>`,
   });
 }
 
-const css = `@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap");
+const css = `@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap");
 
 :root {
   --ink: #20211e;
@@ -399,6 +526,8 @@ const css = `@import url("https://fonts.googleapis.com/css2?family=Geist:wght@40
 html { overflow-x: hidden; background: var(--paper); scroll-behavior: smooth; }
 body {
   margin: 0;
+  width: 100%;
+  max-width: 100vw;
   overflow-x: hidden;
   background: var(--paper);
   color: var(--ink);
@@ -406,6 +535,10 @@ body {
   font-size: 16px;
   line-height: 1.65;
   text-rendering: optimizeLegibility;
+}
+
+html[dir="rtl"] body {
+  font-family: "Noto Sans Arabic", Geist, ui-sans-serif, system-ui, sans-serif;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -490,6 +623,25 @@ button, a { -webkit-tap-highlight-color: transparent; }
   font-size: 0.84rem;
   font-weight: 700;
 }
+.language-toggle {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  padding: 0 14px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.language-toggle:hover,
+.book-link:hover {
+  border-color: var(--warm);
+}
+.mobile-language {
+  width: 100%;
+  justify-content: center;
+}
 .menu-button {
   display: none;
   width: 44px;
@@ -570,6 +722,7 @@ h1, h2, h3 {
   color: var(--ink);
   line-height: 1.12;
   letter-spacing: 0;
+  overflow-wrap: break-word;
 }
 h1 {
   max-width: 780px;
@@ -697,6 +850,39 @@ p { color: var(--muted); }
   font-weight: 700;
 }
 
+.doctor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.doctor-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.doctor-card img {
+  aspect-ratio: 1 / 1.22;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.doctor-card div {
+  padding: 22px;
+}
+
+.doctor-card p {
+  margin-bottom: 8px;
+}
+
+.doctor-card span {
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
 .image-text,
 .result-feature,
 .result-case,
@@ -720,9 +906,33 @@ p { color: var(--muted); }
 .result-feature {
   background: #eeebe3;
 }
-.result-feature img,
+.result-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.result-tile {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.result-tile img {
+  aspect-ratio: 1.1 / 0.86;
+  object-fit: cover;
+}
+.result-tile div {
+  padding: 18px;
+}
+.result-tile h3 {
+  margin-bottom: 0;
+}
 .result-case img {
   aspect-ratio: 1.45 / 1;
+}
+
+.result-case + .result-case {
+  padding-top: 0;
 }
 
 .check-list {
@@ -845,6 +1055,30 @@ p { color: var(--muted); }
 
 .mobile-cta { display: none; }
 
+html[dir="rtl"] .desktop-nav a,
+html[dir="rtl"] .button,
+html[dir="rtl"] .book-link,
+html[dir="rtl"] .language-toggle {
+  letter-spacing: 0;
+}
+
+html[dir="rtl"] .case-notes dd {
+  margin-right: 0;
+}
+
+html[dir="rtl"] .page-lead,
+html[dir="rtl"] .hero-copy,
+html[dir="rtl"] .image-text div,
+html[dir="rtl"] .result-feature > div,
+html[dir="rtl"] .result-case > div,
+html[dir="rtl"] .contact-panel,
+html[dir="rtl"] .booking-form,
+html[dir="rtl"] .quiet-card,
+html[dir="rtl"] .doctor-card div,
+html[dir="rtl"] .footer {
+  text-align: right;
+}
+
 @media (max-width: 1040px) {
   .desktop-nav { display: none; }
   .menu-button { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; }
@@ -867,6 +1101,8 @@ p { color: var(--muted); }
   .card-grid,
   .card-grid.two,
   .card-grid.three,
+  .doctor-grid,
+  .result-preview-grid,
   .trust-strip {
     grid-template-columns: 1fr 1fr;
   }
@@ -878,11 +1114,22 @@ p { color: var(--muted); }
     min-height: 66px;
     padding-inline: 16px;
   }
+  html[dir="rtl"] .site-header,
+  html[dir="rtl"] .mobile-cta {
+    direction: ltr;
+  }
+  html[dir="rtl"] .site-header .brand,
+  html[dir="rtl"] .mobile-cta a {
+    direction: rtl;
+  }
   .brand small,
-  .book-link { display: none; }
+  .book-link,
+  .header-actions > .language-toggle { display: none; }
   .mobile-nav { inset-block-start: 66px; }
   h1 { font-size: clamp(2rem, 8.6vw, 2.68rem); line-height: 1.14; }
   h2 { font-size: clamp(1.65rem, 8vw, 2.35rem); }
+  html[dir="rtl"] h1 { font-size: clamp(1.82rem, 7.4vw, 2.24rem); line-height: 1.22; }
+  html[dir="rtl"] h2 { font-size: clamp(1.5rem, 7vw, 2.05rem); line-height: 1.26; }
   .hero,
   .section,
   .image-text,
@@ -900,7 +1147,11 @@ p { color: var(--muted); }
   .hero-copy,
   .hero-image {
     width: 100%;
-    max-width: 358px;
+    max-width: min(358px, calc(100vw - 32px));
+  }
+  html[dir="rtl"] .hero-copy,
+  html[dir="rtl"] .hero-image {
+    margin-inline: auto 0;
   }
   .hero-copy {
     margin-bottom: 28px;
@@ -910,6 +1161,8 @@ p { color: var(--muted); }
   .card-grid,
   .card-grid.two,
   .card-grid.three,
+  .doctor-grid,
+  .result-preview-grid,
   .trust-strip {
     grid-template-columns: 1fr;
   }
@@ -964,6 +1217,40 @@ menuButton?.addEventListener("click", () => {
   const open = mobileNav?.classList.toggle("open") ?? false;
   menuButton.setAttribute("aria-expanded", String(open));
 });
+
+const languageButtons = document.querySelectorAll("[data-language-toggle]");
+const translatable = document.querySelectorAll("[data-en][data-ar]");
+const placeholderFields = document.querySelectorAll("[data-placeholder-en][data-placeholder-ar]");
+
+function applyLanguage(language) {
+  const isArabic = language === "ar";
+  document.documentElement.lang = isArabic ? "ar" : "en";
+  document.documentElement.dir = isArabic ? "rtl" : "ltr";
+
+  translatable.forEach((element) => {
+    element.textContent = element.dataset[isArabic ? "ar" : "en"] || "";
+  });
+
+  placeholderFields.forEach((field) => {
+    field.setAttribute("placeholder", field.dataset[isArabic ? "placeholderAr" : "placeholderEn"] || "");
+  });
+
+  languageButtons.forEach((button) => {
+    button.textContent = isArabic ? "English" : "عربي";
+    button.setAttribute("aria-label", isArabic ? "Switch to English" : "التبديل إلى العربية");
+  });
+
+  localStorage.setItem("aster-language", language);
+}
+
+languageButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    applyLanguage(document.documentElement.lang === "ar" ? "en" : "ar");
+  });
+});
+
+const requestedLanguage = new URLSearchParams(window.location.search).get("lang");
+applyLanguage(requestedLanguage === "ar" || localStorage.getItem("aster-language") === "ar" ? "ar" : "en");
 
 document.querySelector(".booking-form")?.addEventListener("submit", (event) => {
   event.preventDefault();

@@ -14,33 +14,35 @@
   <header class="site-header">
     <a class="brand" href="/samples/clinic/index.html" aria-label="Aster Clinic home">
       <span>Aster</span>
-      <small>Private aesthetic clinic</small>
+      <small data-en="Private aesthetic clinic" data-ar="عيادة تجميل خاصة">Private aesthetic clinic</small>
     </a>
-    <nav class="desktop-nav" aria-label="Primary navigation"><a href="/samples/clinic/index.html">Home</a><a href="/samples/clinic/services/index.html">Treatments</a><a href="/samples/clinic/portfolio/index.html">Results</a><a href="/samples/clinic/doctors/index.html">Doctors</a><a href="/samples/clinic/patient-info/index.html">Patient Info</a><a href="/samples/clinic/contact/index.html">Contact</a></nav>
+    <nav class="desktop-nav" aria-label="Primary navigation"><a href="/samples/clinic/index.html" data-en="Home" data-ar="الرئيسية">Home</a><a href="/samples/clinic/services/index.html" data-en="Treatments" data-ar="العلاجات">Treatments</a><a href="/samples/clinic/portfolio/index.html" data-en="Results" data-ar="النتائج">Results</a><a href="/samples/clinic/doctors/index.html" data-en="Doctors" data-ar="الأطباء">Doctors</a><a href="/samples/clinic/patient-info/index.html" data-en="Patient Info" data-ar="إرشادات المرضى">Patient Info</a><a href="/samples/clinic/contact/index.html" data-en="Contact" data-ar="التواصل">Contact</a></nav>
     <div class="header-actions">
-      <a class="book-link" href="/samples/clinic/book/index.html">Book</a>
+      <button class="language-toggle" type="button" aria-label="Switch language" data-language-toggle>عربي</button>
+      <a class="book-link" href="/samples/clinic/book/index.html" data-en="Book" data-ar="احجز">Book</a>
       <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
     </div>
   </header>
   <nav class="mobile-nav" aria-label="Mobile navigation">
-    <a href="/samples/clinic/index.html">Home</a><a href="/samples/clinic/services/index.html">Treatments</a><a href="/samples/clinic/portfolio/index.html">Results</a><a href="/samples/clinic/doctors/index.html">Doctors</a><a href="/samples/clinic/patient-info/index.html">Patient Info</a><a href="/samples/clinic/contact/index.html">Contact</a>
-    <a class="button" href="/samples/clinic/book/index.html">Book consultation</a>
+    <a href="/samples/clinic/index.html" data-en="Home" data-ar="الرئيسية">Home</a><a href="/samples/clinic/services/index.html" data-en="Treatments" data-ar="العلاجات">Treatments</a><a href="/samples/clinic/portfolio/index.html" data-en="Results" data-ar="النتائج">Results</a><a href="/samples/clinic/doctors/index.html" data-en="Doctors" data-ar="الأطباء">Doctors</a><a href="/samples/clinic/patient-info/index.html" data-en="Patient Info" data-ar="إرشادات المرضى">Patient Info</a><a href="/samples/clinic/contact/index.html" data-en="Contact" data-ar="التواصل">Contact</a>
+    <button class="language-toggle mobile-language" type="button" aria-label="Switch language" data-language-toggle>عربي</button>
+    <a class="button" href="/samples/clinic/book/index.html" data-en="Book consultation" data-ar="احجز استشارة">Book consultation</a>
   </nav>
   <main id="main">
     <section class="page-lead">
-        <p class="kicker">Aster Clinic</p>
-        <h1>Book consultation</h1>
-        <p>Request a private consultation with the Aster Clinic team.</p>
+        <p class="kicker" data-en="Aster Clinic" data-ar="عيادة أستر">Aster Clinic</p>
+        <h1 data-en="Book consultation" data-ar="احجز استشارة">Book consultation</h1>
+        <p data-en="Request a private consultation with the Aster Clinic team." data-ar="اطلب استشارة خاصة مع فريق عيادة أستر.">Request a private consultation with the Aster Clinic team.</p>
       </section>
     <section class="booking-layout">
       <form class="booking-form">
-        <label><span>Name</span><input name="name" autocomplete="name" required></label>
-        <label><span>Phone</span><input name="phone" autocomplete="tel" required></label>
-        <label><span>Interest</span><select name="interest"><option>Facial surgery consultation</option><option>Skin health</option><option>Injectables</option><option>Not sure yet</option></select></label>
-        <label><span>Preferred day</span><select name="day"><option>Sunday</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option></select></label>
-        <label class="full"><span>Message</span><textarea name="message" rows="5" placeholder="Tell us what you would like to discuss."></textarea></label>
-        <button class="button full" type="submit">Request consultation</button>
-        <p class="form-note" hidden>Thank you. The clinic will contact you to confirm the appointment.</p>
+        <label><span data-en="Name" data-ar="الاسم">Name</span><input name="name" autocomplete="name" required></label>
+        <label><span data-en="Phone" data-ar="الهاتف">Phone</span><input name="phone" autocomplete="tel" required></label>
+        <label><span data-en="Interest" data-ar="الاهتمام">Interest</span><select name="interest"><option data-en="Facial surgery consultation" data-ar="استشارة جراحة الوجه">Facial surgery consultation</option><option data-en="Skin health" data-ar="صحة البشرة">Skin health</option><option data-en="Injectables" data-ar="الحقن التجميلية">Injectables</option><option data-en="Not sure yet" data-ar="لست متأكداً بعد">Not sure yet</option></select></label>
+        <label><span data-en="Preferred day" data-ar="اليوم المفضل">Preferred day</span><select name="day"><option data-en="Sunday" data-ar="الأحد">Sunday</option><option data-en="Monday" data-ar="الاثنين">Monday</option><option data-en="Tuesday" data-ar="الثلاثاء">Tuesday</option><option data-en="Wednesday" data-ar="الأربعاء">Wednesday</option><option data-en="Thursday" data-ar="الخميس">Thursday</option></select></label>
+        <label class="full"><span data-en="Message" data-ar="الرسالة">Message</span><textarea name="message" rows="5" data-placeholder-en="Tell us what you would like to discuss." data-placeholder-ar="اكتب ما ترغب في مناقشته." placeholder="Tell us what you would like to discuss."></textarea></label>
+        <button class="button full" type="submit" data-en="Request consultation" data-ar="اطلب الاستشارة">Request consultation</button>
+        <p class="form-note" hidden data-en="Thank you. The clinic will contact you to confirm the appointment." data-ar="شكراً لك. ستتواصل العيادة معك لتأكيد الموعد.">Thank you. The clinic will contact you to confirm the appointment.</p>
       </form>
       <img src="/samples/clinic/media/interior.jpg" alt="Aster Clinic private reception">
     </section>
@@ -49,25 +51,25 @@
     <div>
       <a class="brand footer-brand" href="/samples/clinic/index.html">
         <span>Aster</span>
-        <small>Private aesthetic clinic</small>
+        <small data-en="Private aesthetic clinic" data-ar="عيادة تجميل خاصة">Private aesthetic clinic</small>
       </a>
-      <p>Quiet, doctor-led aesthetic care with clear information, consistent follow-up, and responsible result presentation.</p>
+      <p data-en="Quiet, doctor-led aesthetic care with clear information, consistent follow-up, and responsible result presentation." data-ar="رعاية تجميلية هادئة يقودها الأطباء، بمعلومات واضحة، متابعة مستمرة، وعرض مسؤول للنتائج.">Quiet, doctor-led aesthetic care with clear information, consistent follow-up, and responsible result presentation.</p>
     </div>
     <nav aria-label="Footer navigation">
-      <a href="/samples/clinic/services/index.html">Treatments</a>
-      <a href="/samples/clinic/portfolio/index.html">Results</a>
-      <a href="/samples/clinic/doctors/index.html">Doctors</a>
-      <a href="/samples/clinic/contact/index.html">Contact</a>
+      <a href="/samples/clinic/services/index.html" data-en="Treatments" data-ar="العلاجات">Treatments</a>
+      <a href="/samples/clinic/portfolio/index.html" data-en="Results" data-ar="النتائج">Results</a>
+      <a href="/samples/clinic/doctors/index.html" data-en="Doctors" data-ar="الأطباء">Doctors</a>
+      <a href="/samples/clinic/contact/index.html" data-en="Contact" data-ar="التواصل">Contact</a>
     </nav>
     <div>
-      <span>Abdoun, Amman</span>
-      <span>Sun - Thu, 9:00 - 18:00</span>
+      <span data-en="Abdoun, Amman" data-ar="عبدون، عمّان">Abdoun, Amman</span>
+      <span data-en="Sun - Thu, 9:00 - 18:00" data-ar="الأحد - الخميس، 9:00 - 18:00">Sun - Thu, 9:00 - 18:00</span>
       <span>+962 79 850 9111</span>
     </div>
   </footer>
   <div class="mobile-cta">
-    <a class="button ghost" href="tel:+962798509111">Call</a>
-    <a class="button" href="/samples/clinic/book/index.html">Book</a>
+    <a class="button ghost" href="tel:+962798509111" data-en="Call" data-ar="اتصل">Call</a>
+    <a class="button" href="/samples/clinic/book/index.html" data-en="Book" data-ar="احجز">Book</a>
   </div>
 </body>
 </html>
