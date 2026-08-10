@@ -1,77 +1,67 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Safa صَفاء</title>
-  <meta name="description" content="Safa صَفاء"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://images.unsplash.com">
-  <link rel="stylesheet" href="/samples/clinic/clinic-v2.css">
-  <script defer src="/samples/clinic/clinic-v2.js"></script>
-<link rel="icon" href="/favicon.png" sizes="512x512" type="image/png"/><script src="/samples/safa-tab-meta.js" defer></script></head>
+  <title>Book Consultation - Aster Clinic</title>
+  <meta name="description" content="Book a private consultation with Aster Clinic.">
+  <link rel="icon" href="/favicon.png" sizes="512x512" type="image/png">
+  <link rel="stylesheet" href="/samples/clinic/aster.css">
+  <script defer src="/samples/clinic/aster.js"></script>
+</head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="topbar">
-    <div class="shell nav-shell">
-      <a class="brand" href="/samples/clinic/index.html" aria-label="Aster Clinic home">
-        <span class="brand-mark">AC</span>
-        <span>Aster Clinic</span>
-      </a>
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a class="" href="/samples/clinic/index.html">Home</a><a class="" href="/samples/clinic/services/index.html">Treatments</a><a class="" href="/samples/clinic/portfolio/index.html">Results</a><a class="" href="/samples/clinic/doctors/index.html">Doctors</a><a class="" href="/samples/clinic/contact/index.html">Contact</a>
-      </nav>
-      <div class="nav-actions">
-        <a class="phone-link" href="tel:+96265550184">+962 6 555 0184</a>
-        <a class="button button-small" href="/samples/clinic/book/index.html">Book</a>
-        <button class="menu-button" type="button" data-menu-toggle aria-label="Open menu"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
-      </div>
+  <header class="site-header">
+    <a class="brand" href="/samples/clinic/index.html" aria-label="Aster Clinic home">
+      <span class="brand-mark">A</span>
+      <span><strong>Aster</strong><small>Private aesthetic clinic</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation"><a class="" href="/samples/clinic/index.html">Home</a><a class="" href="/samples/clinic/services/index.html">Treatments</a><a class="" href="/samples/clinic/portfolio/index.html">Results</a><a class="" href="/samples/clinic/doctors/index.html">Doctors</a><a class="" href="/samples/clinic/patient-info/index.html">Patient Info</a><a class="" href="/samples/clinic/contact/index.html">Contact</a></nav>
+    <div class="header-actions">
+      <a class="button button-small" href="/samples/clinic/book/index.html">Book</a>
+      <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
     </div>
-    <nav class="mobile-menu" data-mobile-nav aria-label="Mobile navigation">
-      <a href="/samples/clinic/index.html">Home</a><a href="/samples/clinic/services/index.html">Treatments</a><a href="/samples/clinic/portfolio/index.html">Results</a><a href="/samples/clinic/doctors/index.html">Doctors</a><a href="/samples/clinic/contact/index.html">Contact</a>
-      <a href="/samples/clinic/book/index.html">Book consultation</a>
-    </nav>
   </header>
-  <main id="main"><h1 class="sr-only">Book Consultation</h1>
-  <section class="shell booking-page">
-    <form class="booking-form" data-demo-form>
-      <div class="lead-copy compact">
-        <span class="eyebrow">Consultation request</span>
-        <p>Choose the treatment area and preferred time. Reception confirms by phone.</p>
-      </div>
-      <div class="form-grid">
-        <label>Full name<input required type="text" autocomplete="name"></label>
-        <label>Phone number<input required type="tel" autocomplete="tel"></label>
-        <label>Email<input type="email" autocomplete="email"></label>
-        <label>Preferred date<input required type="date"></label>
-        <label>Treatment area<select required><option value="">Select treatment</option><option>Facial Plastic Surgery</option><option>Injectables & Contouring</option><option>Skin & Laser Treatments</option><option>Post-treatment Care</option></select></label>
-        <label>Doctor<select><option>First available</option><option>Dr. Lina Haddad</option><option>Dr. Omar Khalil</option><option>Dr. Rania Nasser</option></select></label>
-        <label class="full">Message<textarea rows="4" placeholder="Tell us what you would like to discuss."></textarea></label>
-      </div>
-      <button class="button submit" type="submit"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="2"></rect><path d="M8 2.75v4M16 2.75v4M3.5 10h17"></path></svg>Request consultation</button>
-      <p class="form-status" data-form-status hidden>Request received. Reception would call to confirm the appointment.</p>
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a class="" href="/samples/clinic/index.html">Home</a><a class="" href="/samples/clinic/services/index.html">Treatments</a><a class="" href="/samples/clinic/portfolio/index.html">Results</a><a class="" href="/samples/clinic/doctors/index.html">Doctors</a><a class="" href="/samples/clinic/patient-info/index.html">Patient Info</a><a class="" href="/samples/clinic/contact/index.html">Contact</a>
+    <a class="button" href="/samples/clinic/book/index.html">Book consultation</a>
+  </nav>
+  <main id="main"><section class="page-lead">
+    <p class="eyebrow">Book consultation</p>
+    <div>
+      <h1>A considered first appointment.</h1>
+      <p>Tell the clinic what you want to understand. The team will confirm the right consultation type and next available time.</p>
+    </div>
+  </section>
+  <section class="booking-layout">
+    <form class="booking-form">
+      <label><span>Full name</span><input required type="text"></label><label><span>Phone number</span><input required type="tel"></label><label><span>Email</span><input required type="email"></label><label><span>Treatment interest</span><input  type="text"></label>
+      <label><span>Preferred date</span><input type="date"></label>
+      <label><span>Preferred time</span><select><option>Morning</option><option>Afternoon</option><option>No preference</option></select></label>
+      <label class="full"><span>What would you like to discuss?</span><textarea rows="5"></textarea></label>
+      <button class="button" type="submit">Request consultation <span aria-hidden="true">-&gt;</span></button>
+      <p class="form-note" role="status" hidden>Thank you. The clinic will contact you to confirm the appointment.</p>
     </form>
-    <aside class="booking-side">
-      <img src="https://images.unsplash.com/photo-1713085085470-fba013d67e65?auto=format&fit=crop&w=1500&q=84" alt="Doctor consultation in a clinical office">
-      <div>
-        <span class="eyebrow">Reception</span>
-        <h2>+962 6 555 0184</h2>
-        <p>Sunday-Thursday, 9:00 AM-6:00 PM</p>
-      </div>
+    <aside class="booking-aside">
+      <img src="https://images.unsplash.com/photo-1713085085470-fba013d67e65?auto=format&fit=crop&w=1500&q=84" alt="Doctor consultation in a clinic office">
+      <h2>What happens next</h2>
+      <p>A coordinator reviews your request, confirms the consultation type, and shares preparation notes before your appointment.</p>
     </aside>
   </section></main>
   <footer class="footer">
-    <div class="shell footer-grid">
+    <div class="footer-inner">
       <div>
-        <a class="brand footer-brand" href="/samples/clinic/index.html"><span class="brand-mark">AC</span><span>Aster Clinic</span></a>
-        <p>Private aesthetic medicine in Abdoun, Amman.</p>
+        <a class="brand footer-brand" href="/samples/clinic/index.html"><span class="brand-mark">A</span><span><strong>Aster</strong><small>Private aesthetic clinic</small></span></a>
+        <p>Consultation-led aesthetic surgery, skin health, and follow-up care in Abdoun.</p>
       </div>
-      <div><h2>Hours</h2><p>Sunday-Thursday<br>9:00 AM-6:00 PM</p></div>
+      <div><h2>Visit</h2><p>Abdoun, Amman<br>Sun-Thu, 9 AM-6 PM</p></div>
       <div><h2>Contact</h2><a href="tel:+96265550184">+962 6 555 0184</a><a href="mailto:hello@asterclinic.jo">hello@asterclinic.jo</a></div>
-      <div><h2>Address</h2><p>14 Al-Kindi Street<br>Abdoun, Amman</p></div>
+      <div><h2>Patients</h2><a href="/samples/clinic/patient-info/index.html">Preparation</a><a href="/samples/clinic/case-study/index.html">Clinical standards</a></div>
     </div>
   </footer>
-  <div class="mobile-cta"><a class="button button-soft" href="tel:+96265550184">Call</a><a class="button" href="/samples/clinic/book/index.html">Book</a></div>
+  <div class="mobile-cta">
+    <a class="button button-soft" href="tel:+96265550184">Call</a>
+    <a class="button" href="/samples/clinic/book/index.html">Book</a>
+  </div>
 </body>
 </html>

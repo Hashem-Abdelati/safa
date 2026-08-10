@@ -8,6 +8,7 @@ const samples = [
   {
     slug: "clinic",
     source: "/Users/hashemabdelati/Desktop/clinic_sample",
+    manual: true,
     routes: ["index", "about", "book", "case-study", "contact", "doctors", "patient-info", "services"],
   },
   {
@@ -126,6 +127,11 @@ function reportFileCount(dir) {
 ensureDir(samplesRoot);
 
 for (const sample of samples) {
+  if (sample.manual) {
+    console.log(`${sample.slug}: skipped manual sample`);
+    continue;
+  }
+
   const target = path.join(samplesRoot, sample.slug);
   rmSync(target, { recursive: true, force: true });
   ensureDir(target);
