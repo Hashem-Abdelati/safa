@@ -137,7 +137,12 @@ body,
   }
 
   .language {
-    display: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    padding: 0;
   }
 
   .menu-toggle {

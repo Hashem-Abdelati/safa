@@ -78,24 +78,66 @@
     anchor.insertAdjacentElement("afterend", section);
   }
 
+  function getCurrentLanguage() {
+    try {
+      var stored = window.localStorage && window.localStorage.getItem("noor-language");
+      if (stored === "ar" || stored === "en") {
+        return stored;
+      }
+    } catch (error) {}
+
+    return document.documentElement.dir === "rtl" || document.documentElement.lang === "ar" ? "ar" : "en";
+  }
+
+  function ensureLanguageToggle() {
+    var button = document.querySelector(".language");
+    if (!button || button.getAttribute("data-safa-language-ready") === "true") {
+      return;
+    }
+
+    button.setAttribute("data-safa-language-ready", "true");
+    button.addEventListener("click", function () {
+      var previous = getCurrentLanguage();
+
+      window.setTimeout(function () {
+        if (getCurrentLanguage() !== previous) {
+          return;
+        }
+
+        var next = previous === "ar" ? "en" : "ar";
+        try {
+          window.localStorage.setItem("noor-language", next);
+        } catch (error) {}
+
+        window.location.reload();
+      }, 120);
+    });
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       ensureMobileMenuButton();
       injectMobilePerformanceSection();
+      ensureLanguageToggle();
     });
   } else {
     ensureMobileMenuButton();
     injectMobilePerformanceSection();
+    ensureLanguageToggle();
   }
   window.addEventListener("load", ensureMobileMenuButton);
   window.addEventListener("load", injectMobilePerformanceSection);
+  window.addEventListener("load", ensureLanguageToggle);
   window.setTimeout(ensureMobileMenuButton, 150);
   window.setTimeout(ensureMobileMenuButton, 700);
   window.setTimeout(ensureMobileMenuButton, 1600);
+  window.setTimeout(ensureLanguageToggle, 150);
+  window.setTimeout(ensureLanguageToggle, 700);
+  window.setTimeout(ensureLanguageToggle, 1600);
   if (window.MutationObserver) {
-    new MutationObserver(ensureMobileMenuButton).observe(document.documentElement, {
-      childList: true,
-      subtree: true,
-    });
+    new MutationObserver(function () {
+      ensureMobileMenuButton();
+      ensureLanguageToggle();
+    }).observe(document.documentElement, { childList: true, subtree: true });
   }
 })();
