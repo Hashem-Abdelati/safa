@@ -2,6 +2,12 @@ import { EditorialLink } from "@/components/editorial-link";
 import { ServicePlanCard } from "@/components/service-plan-card";
 import { localePath } from "@/lib/i18n";
 import { getPageLocale } from "@/lib/page-locale";
+import { pageMetadata } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const locale = await getPageLocale(params);
+  return pageMetadata(locale, "services");
+}
 
 const plans = {
   en: [

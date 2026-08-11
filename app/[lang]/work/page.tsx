@@ -1,7 +1,13 @@
 import { WebsitePreview } from "@/components/website-preview";
 import { getPageLocale } from "@/lib/page-locale";
+import { pageMetadata } from "@/lib/seo";
 import { sampleWork } from "@/lib/sample-work";
 import { ExternalLink } from "lucide-react";
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const locale = await getPageLocale(params);
+  return pageMetadata(locale, "work");
+}
 
 export default async function WorkPage({ params }: { params: Promise<{ lang: string }> }) {
   const locale = await getPageLocale(params);

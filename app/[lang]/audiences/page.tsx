@@ -1,5 +1,11 @@
 import { PageIntro } from "@/components/page-intro";
 import { getPageLocale } from "@/lib/page-locale";
+import { pageMetadata } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const locale = await getPageLocale(params);
+  return pageMetadata(locale, "audiences");
+}
 
 const audiences = {
   en: [

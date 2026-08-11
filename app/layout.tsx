@@ -5,6 +5,7 @@ import {
   Manrope,
   Noto_Naskh_Arabic,
 } from "next/font/google";
+import { defaultOgImage, siteName, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -31,8 +32,45 @@ const arabicSerif = Noto_Naskh_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "Safa صَفاء",
-  description: "Safa صَفاء",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteName,
+    template: `%s | ${siteName}`,
+  },
+  description: "Premium websites for businesses that need to look clear, trusted, and ready online.",
+  applicationName: siteName,
+  creator: siteName,
+  publisher: siteName,
+  alternates: {
+    canonical: "/en",
+    languages: {
+      en: "/en",
+      ar: "/ar",
+    },
+  },
+  openGraph: {
+    title: siteName,
+    description: "Premium websites for businesses that need to look clear, trusted, and ready online.",
+    url: "/en",
+    siteName,
+    type: "website",
+    locale: "en_US",
+    alternateLocale: "ar_AR",
+    images: [
+      {
+        url: defaultOgImage,
+        width: 1440,
+        height: 1100,
+        alt: "A premium Safa website sample preview.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description: "Premium websites for businesses that need to look clear, trusted, and ready online.",
+    images: [defaultOgImage],
+  },
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png", sizes: "512x512" }],
     shortcut: [{ url: "/favicon.png", type: "image/png" }],

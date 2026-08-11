@@ -1,6 +1,12 @@
 import { ProjectForm } from "@/components/project-form";
 import { contactEmail, contactPhone, contactPhoneDisplay } from "@/lib/contact";
 import { getPageLocale } from "@/lib/page-locale";
+import { pageMetadata } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const locale = await getPageLocale(params);
+  return pageMetadata(locale, "contact");
+}
 
 export default async function ContactPage({ params }: { params: Promise<{ lang: string }> }) {
   const locale = await getPageLocale(params);
@@ -34,9 +40,9 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
           </div>
         </div>
       </header>
-      <section className="page-pad">
+      <section className="py-8 md:py-24">
         <div className="site-container grid gap-10 lg:grid-cols-[0.55fr_1.45fr] lg:gap-16">
-          <aside className="min-w-0">
+          <aside className="order-2 min-w-0 lg:order-1">
             <p className="eyebrow text-gold">{ar ? "تواصل مباشر" : "Direct contact"}</p>
             <div className="mt-6 space-y-4 text-sm leading-7 text-ink/65">
               <a className="transition-colors hover:text-gold" href={`mailto:${contactEmail}`}>
@@ -56,7 +62,9 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
               ))}
             </div>
           </aside>
-          <ProjectForm locale={locale} />
+          <div className="order-1 lg:order-2">
+            <ProjectForm locale={locale} />
+          </div>
         </div>
       </section>
     </>

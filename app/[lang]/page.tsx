@@ -3,8 +3,14 @@ import { EditorialLink } from "@/components/editorial-link";
 import { WebsitePreview } from "@/components/website-preview";
 import { getPageLocale } from "@/lib/page-locale";
 import { localePath } from "@/lib/i18n";
+import { pageMetadata } from "@/lib/seo";
 import { sampleWork } from "@/lib/sample-work";
 import { ExternalLink } from "lucide-react";
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const locale = await getPageLocale(params);
+  return pageMetadata(locale, "home");
+}
 
 export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
   const locale = await getPageLocale(params);

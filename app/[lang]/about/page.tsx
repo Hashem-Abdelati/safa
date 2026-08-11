@@ -1,6 +1,12 @@
 import { EditorialLink } from "@/components/editorial-link";
 import { localePath } from "@/lib/i18n";
 import { getPageLocale } from "@/lib/page-locale";
+import { pageMetadata } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const locale = await getPageLocale(params);
+  return pageMetadata(locale, "about");
+}
 
 export default async function AboutPage({ params }: { params: Promise<{ lang: string }> }) {
   const locale = await getPageLocale(params);
