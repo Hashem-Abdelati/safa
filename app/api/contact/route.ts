@@ -5,11 +5,10 @@ type ContactPayload = {
   business?: unknown;
   email?: unknown;
   websiteType?: unknown;
-  budget?: unknown;
   message?: unknown;
 };
 
-const requiredFields = ["name", "business", "email", "websiteType", "budget", "message"] as const;
+const requiredFields = ["name", "business", "email", "websiteType", "message"] as const;
 
 function asString(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
@@ -43,7 +42,6 @@ export async function POST(request: Request) {
     business: asString(payload.business),
     email: asString(payload.email),
     websiteType: asString(payload.websiteType),
-    budget: asString(payload.budget),
     message: asString(payload.message),
   };
 
@@ -69,7 +67,6 @@ export async function POST(request: Request) {
     `Business: ${inquiry.business}`,
     `Email: ${inquiry.email}`,
     `Website type: ${inquiry.websiteType}`,
-    `Budget range: ${inquiry.budget}`,
     "",
     "Project details:",
     inquiry.message,
@@ -81,7 +78,6 @@ export async function POST(request: Request) {
       <p><strong>Business:</strong> ${escapeHtml(inquiry.business)}</p>
       <p><strong>Email:</strong> ${escapeHtml(inquiry.email)}</p>
       <p><strong>Website type:</strong> ${escapeHtml(inquiry.websiteType)}</p>
-      <p><strong>Budget range:</strong> ${escapeHtml(inquiry.budget)}</p>
       <hr style="border:none;border-top:1px solid #ddd;margin:20px 0" />
       <p style="white-space:pre-wrap">${escapeHtml(inquiry.message)}</p>
     </div>
