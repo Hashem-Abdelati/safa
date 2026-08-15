@@ -54,10 +54,10 @@ export function Hero({ locale }: { locale: Locale }) {
             </div>
           </div>
           <div className="grid gap-3 sm:flex sm:flex-wrap md:justify-end">
-            <Link href={localePath(locale, "/contact")} className="safa-button safa-button--primary">
+            <Link href={localePath(locale, "/contact")} prefetch={false} className="safa-button safa-button--primary">
               {ar ? "ابدأ مشروعك" : "Start a Project"}
             </Link>
-            <Link href={localePath(locale, "/services")} className="safa-button safa-button--secondary">
+            <Link href={localePath(locale, "/services")} prefetch={false} className="safa-button safa-button--secondary">
               {ar ? "اكتشف الخدمات" : "View Services"}
             </Link>
           </div>

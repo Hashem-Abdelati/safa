@@ -52,6 +52,7 @@ const copy = {
     loading: ["Fetching the page", "Measuring HTML signals", "Scoring the rubric", "Preparing the report"],
     note: "This is a neutral first-page audit based on public HTML and response data. It does not replace Lighthouse or a full UX review.",
     error: "We couldn’t complete the audit.",
+    invalidUrl: "Please enter a valid website URL.",
     report: "Audit report",
     recommendations: "Highest-impact fixes",
     again: "Audit another site",
@@ -72,6 +73,7 @@ const copy = {
     loading: ["نجلب الصفحة", "نقيس إشارات HTML", "نحسب النقاط", "نجهّز التقرير"],
     note: "هذا فحص محايد للصفحة الأولى يعتمد على HTML العام وبيانات الاستجابة. لا يستبدل Lighthouse أو مراجعة تجربة كاملة.",
     error: "لم نتمكن من إكمال الفحص.",
+    invalidUrl: "أدخل رابط موقع صالحًا.",
     report: "تقرير الفحص",
     recommendations: "أهم التحسينات",
     again: "افحص موقعًا آخر",
@@ -115,6 +117,20 @@ function Score({ value, label, featured = false }: { value: number; label: strin
   );
 }
 
+function normalizeAuditUrl(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed || /\s/.test(trimmed)) return null;
+
+  try {
+    const target = new URL(/^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`);
+    if (!["http:", "https:"].includes(target.protocol)) return null;
+    if (!target.hostname.includes(".") && !/^\d{1,3}(?:\.\d{1,3}){3}$/.test(target.hostname)) return null;
+    return target.toString();
+  } catch {
+    return null;
+  }
+}
+
 export function WebsiteAudit({ locale }: { locale: Locale }) {
   const c = copy[locale];
   const [url, setUrl] = React.useState("");
@@ -133,7 +149,14 @@ export function WebsiteAudit({ locale }: { locale: Locale }) {
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!url.trim()) return;
+    const normalizedUrl = normalizeAuditUrl(url);
+    if (!normalizedUrl) {
+      setError(c.invalidUrl);
+      setStatus("error");
+      setResult(null);
+      return;
+    }
+
     setStatus("loading");
     setLoadingStep(0);
     setError("");
@@ -143,7 +166,7 @@ export function WebsiteAudit({ locale }: { locale: Locale }) {
       const response = await fetch("/api/audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: url.trim(), locale }),
+        body: JSON.stringify({ url: normalizedUrl, locale }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || c.error);
@@ -249,14 +272,9 @@ export function WebsiteAudit({ locale }: { locale: Locale }) {
         </div>
       ) : (
         <>
-          <div className="mb-12 grid gap-7 border-b border-paper/15 pb-8 md:grid-cols-3">
-            <div className="flex items-center gap-3 text-sm text-paper/65"><Gauge size={17} className="text-gold" aria-hidden="true" />{c.signals[0]}</div>
-            <div className="flex items-center gap-3 text-sm text-paper/65"><ShieldCheck size={17} className="text-gold" aria-hidden="true" />{c.signals[1]}</div>
-            <div className="flex items-center gap-3 text-sm text-paper/65"><Check size={17} className="text-gold" aria-hidden="true" />{c.signals[2]}</div>
-          </div>
-          <form onSubmit={submit}>
+          <form onSubmit={submit} className="min-w-0">
             <label htmlFor="audit-url" className="eyebrow text-paper/45">{c.label}</label>
-            <div className="mt-5 flex flex-col gap-3 md:flex-row">
+            <div className="mt-5 flex min-w-0 flex-col gap-3 md:flex-row">
               <input
                 id="audit-url"
                 type="text"
@@ -265,16 +283,21 @@ export function WebsiteAudit({ locale }: { locale: Locale }) {
                 value={url}
                 onChange={(event) => setUrl(event.target.value)}
                 placeholder={c.placeholder}
-                className="h-16 flex-1 border border-paper/25 bg-transparent px-5 text-lg text-paper outline-none transition-colors placeholder:text-paper/25 focus:border-gold md:text-xl"
+                className="h-16 min-w-0 flex-1 border border-paper/25 bg-transparent px-4 text-lg text-paper outline-none transition-colors placeholder:text-paper/25 focus:border-gold md:px-5 md:text-xl"
                 required
               />
-              <Button type="submit" className="h-16 rounded-none bg-paper px-7 text-xs uppercase tracking-[0.14em] text-ink hover:bg-gold hover:text-ink">
+              <Button type="submit" className="h-16 w-full min-w-0 rounded-none bg-paper px-4 text-[11px] uppercase tracking-[0.12em] text-ink hover:bg-gold hover:text-ink md:w-auto md:px-7 md:text-xs md:tracking-[0.14em]">
                 {c.button}<ArrowUpRight aria-hidden="true" />
               </Button>
             </div>
-            <p className="mt-4 text-xs leading-6 text-paper/40">{c.note}</p>
+            <p className="mt-4 max-w-full break-words text-xs leading-6 text-paper/40">{c.note}</p>
             {status === "error" && <p className="mt-5 border-s-2 border-gold ps-4 text-sm text-paper/70" role="alert">{error || c.error}</p>}
           </form>
+          <div className="mt-8 grid gap-5 border-t border-paper/15 pt-7 md:mt-12 md:grid-cols-3 md:pt-8">
+            <div className="flex items-center gap-3 text-sm text-paper/65"><Gauge size={17} className="text-gold" aria-hidden="true" />{c.signals[0]}</div>
+            <div className="flex items-center gap-3 text-sm text-paper/65"><ShieldCheck size={17} className="text-gold" aria-hidden="true" />{c.signals[1]}</div>
+            <div className="flex items-center gap-3 text-sm text-paper/65"><Check size={17} className="text-gold" aria-hidden="true" />{c.signals[2]}</div>
+          </div>
         </>
       )}
     </section>

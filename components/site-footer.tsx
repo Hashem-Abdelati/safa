@@ -17,6 +17,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         <div className="flex flex-col justify-between gap-10 md:items-end">
           <Link
             href={localePath(locale, "/contact")}
+            prefetch={false}
             className="inline-flex w-fit items-center gap-3 border-b border-gold pb-2 text-sm transition-colors hover:text-gold"
           >
             {ar ? "ابدأ مشروعك" : "Start a project"}

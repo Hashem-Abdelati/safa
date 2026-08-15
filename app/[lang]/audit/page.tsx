@@ -15,22 +15,22 @@ export default async function AuditPage({ params }: { params: Promise<{ lang: st
 
   return (
     <>
-      <section className="bg-ink pt-16 text-paper md:pt-24">
-        <div className="site-container grid gap-8 border-b border-paper/15 pb-10 md:grid-cols-[0.8fr_1.2fr] md:items-end">
+      <section className="bg-ink pt-9 text-paper md:pt-24">
+        <div className="site-container grid gap-5 border-b border-paper/15 pb-7 md:grid-cols-[0.8fr_1.2fr] md:items-end md:gap-8 md:pb-10">
           <div>
             <p className="eyebrow text-gold">{ar ? "فحص الموقع" : "Website audit"}</p>
-            <h1 className="mt-4 font-heading text-[clamp(3rem,7vw,5.75rem)] leading-none">
+            <h1 className="mt-3 max-w-[9ch] break-words font-heading text-[clamp(2.25rem,11vw,3.4rem)] leading-none md:mt-4 md:max-w-none md:text-[clamp(3rem,7vw,5.75rem)]">
               {ar ? "نتيجة واضحة." : "A clear score."}
             </h1>
           </div>
-          <p className="max-w-2xl text-base leading-8 text-paper/62 md:justify-self-end md:text-lg">
+          <p className="max-w-2xl break-words text-sm leading-7 text-paper/62 md:justify-self-end md:text-lg md:leading-8">
             {ar
               ? "أدخل رابطًا عامًا لنفحص الصفحة الأولى بنقاط موضوعية: الأداء، الوصول، البحث، الأساس التقني، ووضوح التجربة."
               : "Enter a public website and get an objective first-page score for performance, accessibility, search, technical foundation, and clarity."}
           </p>
         </div>
       </section>
-      <section className="bg-ink py-12 text-paper md:py-16">
+      <section className="bg-ink py-6 text-paper md:py-16">
         <div className="site-container">
           <WebsiteAudit locale={locale} />
         </div>

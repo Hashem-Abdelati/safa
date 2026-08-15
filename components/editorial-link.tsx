@@ -16,6 +16,7 @@ export function EditorialLink({
   return (
     <Link
       href={href}
+      prefetch={false}
       className={cn(
         "rule-link inline-flex w-fit items-center gap-3 pb-1 text-xs font-semibold uppercase tracking-[0.14em]",
         isArabic && "text-sm font-medium tracking-normal",

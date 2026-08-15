@@ -33,6 +33,7 @@ export function RouteTransition({
 
       const url = new URL(anchor.href, window.location.href);
       if (url.origin !== window.location.origin) return;
+      if (url.pathname.startsWith("/_next")) return;
       if (url.pathname === window.location.pathname && url.search === window.location.search) return;
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 

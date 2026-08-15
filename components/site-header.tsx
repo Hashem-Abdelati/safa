@@ -37,6 +37,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       <div className="site-container flex h-16 items-center justify-between gap-4 md:h-[76px] md:gap-8">
         <Link
           href={localePath(locale)}
+          prefetch={false}
           className="group flex min-w-0 items-baseline gap-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
           aria-label={locale === "ar" ? "صَفاء — الرئيسية" : "SAFA — Home"}
         >
@@ -52,6 +53,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               <Link
                 key={href}
                 href={url}
+                prefetch={false}
                 className={cn(
                   "nav-link text-[0.72rem] font-medium uppercase tracking-[0.13em] text-ink/65 transition-colors hover:text-ink",
                   locale === "ar" && "text-sm font-normal tracking-normal",
@@ -67,6 +69,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         <div className="flex shrink-0 items-center gap-2 md:gap-3">
           <Link
             href={localizedPath}
+            prefetch={false}
             className="inline-flex h-10 min-w-10 items-center justify-center border border-ink/20 px-3 text-xs font-semibold tracking-[0.1em] transition-colors hover:border-ink hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 md:h-9 md:min-w-11"
             aria-label={nextLocale === "ar" ? "التبديل إلى العربية" : "Switch to English"}
           >
@@ -96,6 +99,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               <Link
                 key={href}
                 href={localePath(locale, href)}
+                prefetch={false}
                 onClick={() => setOpen(false)}
                 className={cn(
                   "flex min-h-14 items-center justify-between border-b border-ink/10 px-4 py-3 text-lg transition-colors last:border-b-0 hover:bg-paper",
