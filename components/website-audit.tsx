@@ -149,6 +149,7 @@ export function WebsiteAudit({ locale }: { locale: Locale }) {
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
     const normalizedUrl = normalizeAuditUrl(url);
     if (!normalizedUrl) {
       setError(c.invalidUrl);
@@ -166,7 +167,11 @@ export function WebsiteAudit({ locale }: { locale: Locale }) {
       const response = await fetch("/api/audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: normalizedUrl, locale }),
+        body: JSON.stringify({
+          url: normalizedUrl,
+          locale,
+          companyWebsite: formData.get("companyWebsite"),
+        }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || c.error);
@@ -273,6 +278,10 @@ export function WebsiteAudit({ locale }: { locale: Locale }) {
       ) : (
         <>
           <form onSubmit={submit} className="min-w-0">
+            <div className="absolute -start-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+              <label htmlFor="audit-company-website">Company website</label>
+              <input id="audit-company-website" name="companyWebsite" type="text" tabIndex={-1} autoComplete="off" />
+            </div>
             <label htmlFor="audit-url" className="eyebrow text-paper/45">{c.label}</label>
             <div className="mt-5 flex min-w-0 flex-col gap-3 md:flex-row">
               <input

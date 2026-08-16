@@ -73,14 +73,17 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     overflow-x: hidden;
+    overscroll-behavior-y: none;
+    scrollbar-gutter: stable;
   }
 
   body {
     @apply bg-paper text-ink;
     min-width: 320px;
     overflow-x: hidden;
+    overscroll-behavior-y: none;
   }
 
   ::selection {

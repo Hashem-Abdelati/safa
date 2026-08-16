@@ -1,6 +1,7 @@
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
 import { NextResponse } from "next/server";
+import { checkRateLimit, rateLimitHeaders } from "@/lib/server/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -112,23 +113,42 @@ function statusFor(points: number, maxPoints: number) {
 }
 
 export async function POST(request: Request) {
+  const rateLimit = checkRateLimit(request, "audit", {
+    limit: 10,
+    windowMs: 10 * 60 * 1_000,
+  });
+  const responseHeaders = rateLimitHeaders(rateLimit);
+
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: "Too many audits. Please wait a few minutes and try again." },
+      { status: 429, headers: responseHeaders },
+    );
+  }
+
   let requestIsArabic = false;
   try {
-    const body = (await request.json()) as { url?: unknown; locale?: unknown };
+    const body = (await request.json()) as { url?: unknown; locale?: unknown; companyWebsite?: unknown };
     const ar = body.locale === "ar";
     requestIsArabic = ar;
+    if (typeof body.companyWebsite === "string" && body.companyWebsite.trim()) {
+      return NextResponse.json(
+        { error: ar ? "تعذر تنفيذ الطلب." : "Unable to process this request." },
+        { status: 400, headers: responseHeaders },
+      );
+    }
     if (typeof body.url !== "string" || body.url.length > 2048) {
-      return NextResponse.json({ error: ar ? "أدخل رابط موقع صالحًا." : "Please enter a valid website URL." }, { status: 400 });
+      return NextResponse.json({ error: ar ? "أدخل رابط موقع صالحًا." : "Please enter a valid website URL." }, { status: 400, headers: responseHeaders });
     }
 
     let target: URL;
     try {
       target = new URL(body.url.match(/^https?:\/\//i) ? body.url : `https://${body.url}`);
     } catch {
-      return NextResponse.json({ error: ar ? "أدخل رابط موقع صالحًا." : "Please enter a valid website URL." }, { status: 400 });
+      return NextResponse.json({ error: ar ? "أدخل رابط موقع صالحًا." : "Please enter a valid website URL." }, { status: 400, headers: responseHeaders });
     }
     if (!['http:', 'https:'].includes(target.protocol)) {
-      return NextResponse.json({ error: ar ? "يمكن فحص مواقع HTTP وHTTPS العامة فقط." : "Only public HTTP and HTTPS websites can be audited." }, { status: 400 });
+      return NextResponse.json({ error: ar ? "يمكن فحص مواقع HTTP وHTTPS العامة فقط." : "Only public HTTP and HTTPS websites can be audited." }, { status: 400, headers: responseHeaders });
     }
 
     const page = await fetchPublicPage(target);
@@ -277,9 +297,12 @@ export async function POST(request: Request) {
       method: ar
         ? "فحص موضوعي سريع يعتمد على HTML العام، زمن الاستجابة، والوسوم الأساسية. لا يحل محل Lighthouse أو اختبار مستخدم كامل."
         : "Objective quick audit based on public HTML, response timing, and core page signals. It does not replace Lighthouse or a full user test.",
-    });
+    }, { headers: responseHeaders });
   } catch (error) {
     const message = error instanceof Error ? error.message : "The audit service is temporarily unavailable.";
-    return NextResponse.json({ error: requestIsArabic ? "تعذر فحص هذا الموقع حاليًا. تأكد أن الرابط عام وحاول مرة أخرى." : message }, { status: 422 });
+    return NextResponse.json(
+      { error: requestIsArabic ? "تعذر فحص هذا الموقع حاليًا. تأكد أن الرابط عام وحاول مرة أخرى." : message },
+      { status: 422, headers: responseHeaders },
+    );
   }
 }
