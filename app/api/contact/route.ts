@@ -1,4 +1,5 @@
 import { contactEmail } from "@/lib/contact";
+import { checkRateLimit, rateLimitHeaders } from "@/lib/server/rate-limit";
 
 type ContactPayload = {
   name?: unknown;
@@ -6,6 +7,7 @@ type ContactPayload = {
   email?: unknown;
   websiteType?: unknown;
   message?: unknown;
+  website?: unknown;
 };
 
 const requiredFields = ["name", "business", "email", "websiteType", "message"] as const;
@@ -29,12 +31,30 @@ function escapeHtml(value: string) {
 }
 
 export async function POST(request: Request) {
+  const rateLimit = checkRateLimit(request, "contact", {
+    limit: 5,
+    windowMs: 15 * 60 * 1_000,
+  });
+  const responseHeaders = rateLimitHeaders(rateLimit);
+
+  if (!rateLimit.allowed) {
+    return Response.json(
+      { error: "Too many inquiries. Please wait a few minutes and try again." },
+      { status: 429, headers: responseHeaders },
+    );
+  }
+
   let payload: ContactPayload;
 
   try {
     payload = await request.json();
   } catch {
-    return Response.json({ error: "Invalid request." }, { status: 400 });
+    return Response.json({ error: "Invalid request." }, { status: 400, headers: responseHeaders });
+  }
+
+  // Honeypot: real visitors never see or fill this field.
+  if (asString(payload.website)) {
+    return Response.json({ ok: true }, { headers: responseHeaders });
   }
 
   const inquiry = {
@@ -47,16 +67,38 @@ export async function POST(request: Request) {
 
   const missingFields = requiredFields.filter((field) => !inquiry[field]);
   if (missingFields.length > 0) {
-    return Response.json({ error: "Please complete every field.", fields: missingFields }, { status: 400 });
+    return Response.json(
+      { error: "Please complete every field.", fields: missingFields },
+      { status: 400, headers: responseHeaders },
+    );
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inquiry.email)) {
-    return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
+    return Response.json(
+      { error: "Please enter a valid email address." },
+      { status: 400, headers: responseHeaders },
+    );
+  }
+
+  if (
+    inquiry.name.length > 100 ||
+    inquiry.business.length > 160 ||
+    inquiry.email.length > 254 ||
+    inquiry.websiteType.length > 100 ||
+    inquiry.message.length > 5_000
+  ) {
+    return Response.json(
+      { error: "One or more fields are too long." },
+      { status: 400, headers: responseHeaders },
+    );
   }
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
-    return Response.json({ error: "Email service is not configured yet." }, { status: 500 });
+    return Response.json(
+      { error: "Email service is not configured yet." },
+      { status: 500, headers: responseHeaders },
+    );
   }
 
   const to = process.env.CONTACT_TO_EMAIL ?? contactEmail;
@@ -103,8 +145,11 @@ export async function POST(request: Request) {
   if (!emailResponse.ok) {
     const detail = await emailResponse.text();
     console.error("Contact email failed:", detail);
-    return Response.json({ error: "Email could not be sent." }, { status: 502 });
+    return Response.json(
+      { error: "Email could not be sent." },
+      { status: 502, headers: responseHeaders },
+    );
   }
 
-  return Response.json({ ok: true });
+  return Response.json({ ok: true }, { headers: responseHeaders });
 }

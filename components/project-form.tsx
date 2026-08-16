@@ -49,6 +49,7 @@ export function ProjectForm({ locale }: { locale: Locale }) {
           email: data.get("email"),
           websiteType: data.get("websiteType"),
           message: data.get("message"),
+          website: data.get("website"),
         };
 
         setStatus("submitting");
@@ -69,17 +70,21 @@ export function ProjectForm({ locale }: { locale: Locale }) {
         }
       }}
     >
+      <div className="absolute -start-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+        <label htmlFor="contact-website">Website</label>
+        <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
       <label className="block">
         <span className="eyebrow text-ink/45">{c.fields[0]}</span>
-        <input className="field" name="name" autoComplete="name" required />
+        <input className="field" name="name" autoComplete="name" maxLength={100} required />
       </label>
       <label className="block">
         <span className="eyebrow text-ink/45">{c.fields[1]}</span>
-        <input className="field" name="business" autoComplete="organization" required />
+        <input className="field" name="business" autoComplete="organization" maxLength={160} required />
       </label>
       <label className="block">
         <span className="eyebrow text-ink/45">{c.fields[2]}</span>
-        <input className="field" name="email" type="email" autoComplete="email" required />
+        <input className="field" name="email" type="email" autoComplete="email" maxLength={254} required />
       </label>
       <label className="block">
         <span className="eyebrow text-ink/45">{c.fields[3]}</span>
@@ -92,7 +97,7 @@ export function ProjectForm({ locale }: { locale: Locale }) {
       </label>
       <label className="block md:col-span-2">
         <span className="eyebrow text-ink/45">{c.fields[4]}</span>
-        <textarea className="field min-h-28 resize-y" name="message" required />
+        <textarea className="field min-h-28 resize-y" name="message" maxLength={5000} required />
       </label>
       <div className="flex flex-col items-stretch gap-4 md:col-span-2 md:flex-row md:items-center md:justify-between">
         <div className="grid gap-3 sm:flex sm:flex-wrap">
