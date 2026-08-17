@@ -82,7 +82,9 @@
   body {
     @apply bg-paper text-ink;
     min-width: 320px;
-    overflow-x: hidden;
+    /* Avoid making the body a second vertical scroll container on Windows. */
+    overflow-x: clip;
+    overflow-y: visible;
     overscroll-behavior-y: none;
   }
 
