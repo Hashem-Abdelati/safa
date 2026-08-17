@@ -36,9 +36,11 @@ export default async function LocaleLayout({
         {isArabic ? "انتقل إلى المحتوى" : "Skip to content"}
       </a>
       <SiteHeader locale={lang} />
-      <main id="main-content" className="page-enter min-h-[70vh]">
-        <RouteTransition locale={lang}>{children}</RouteTransition>
-      </main>
+      <RouteTransition locale={lang}>
+        <main id="main-content" className="page-enter min-h-[70vh]">
+          {children}
+        </main>
+      </RouteTransition>
       <SiteFooter locale={lang} />
     </div>
   );
